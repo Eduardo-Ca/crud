@@ -13,15 +13,18 @@ class Request {
 class Endpoints {
   //GET
 
-  static const String BUSCAR_CLIENTES = 'api/v2/prevenda/prevendaitens';
-  static const String BUSCAR_FORNECEDORES = 'api/v2/prevenda/prevendaitens';
-  static const String BUSCAR_PRODUTOS = 'api/v2/prevenda/prevendaitens';
-  static const String BUSCAR_FUNCIONARIOS = 'api/v2/prevenda/prevendaitens';
-  static const String BUSCAR_VENDAS = 'api/v2/prevenda/prevendaitens';
+  static const String BUSCAR_CLIENTES = 'controller/ExibeClientes';
+  static const String BUSCAR_FORNECEDORES = 'controller/ExibeFornecedores';
+  static const String BUSCAR_PRODUTOS = 'controller/ExibeProdutos';
+  static const String BUSCAR_FUNCIONARIOS = 'controller/ExibeFuncionarios';
+  static const String BUSCAR_VENDAS = 'Venda/ExibeVendas';
  
 
   //POST
 
-  static const String EXCLUIR_PRODUTOS_FICHA = 'api/v1/prevenda/cancelamento';
+  static const String SALVAR_CLIENTE = 'controller/SaveClient';
+
+  //DELETE
+  static const String DELETAR_CLIENTE = 'controller/DeletaCliente';
 
 }

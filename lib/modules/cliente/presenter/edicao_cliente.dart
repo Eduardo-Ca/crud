@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:teste/modules/cliente/data/models/cliente_model.dart';
+import 'package:teste/modules/cliente/domain/entities/cliente_entity.dart';
+import 'package:teste/modules/cliente/domain/usecases/cliente_usecases.dart';
 import 'package:teste/modules/cliente/presenter/components/text_form_clientes.dart';
-import 'package:teste/modules/fornecedor/presenter/components/text_form_fornecedores.dart';
 
-class FormFornecedores extends StatefulWidget {
-  const FormFornecedores({super.key});
+class EdicaoCliente extends StatefulWidget {
+  ClienteModel cliente;
+   EdicaoCliente({super.key,required this.cliente});
 
   @override
-  State<FormFornecedores> createState() => _FormFornecedoresState();
+  State<EdicaoCliente> createState() => _EdicaoClienteState();
 }
 
-class _FormFornecedoresState extends State<FormFornecedores> {
+class _EdicaoClienteState extends State<EdicaoCliente> {
   TextEditingController nameController = TextEditingController();
   TextEditingController telefoneController = TextEditingController();
   TextEditingController enderecoController = TextEditingController();
 
+  late UseCasesCliente _UseCasesCliente;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _UseCasesCliente = GetIt.I.get<UseCasesCliente>();
+  }
 
   final _formkey = GlobalKey<FormState>();
 
@@ -30,11 +42,11 @@ class _FormFornecedoresState extends State<FormFornecedores> {
       key: _formkey,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Novo Fornecedor'),
+          title:  Text("Edição:${widget.cliente.nome}"),
         ),
         body: Center(
           child: SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: 650,
               width: 375,
               child: Card(
@@ -47,8 +59,8 @@ class _FormFornecedoresState extends State<FormFornecedores> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-          //! ============== TEXT FORMS ===========
-                      TextFormFornecedores(
+                      //! ============== TEXT FORMS ===========
+                      TextFormClientes(
                         teclado: TextInputType.name,
                         funcao: (String? value) {
                           if (nomeValidator(value)) {
@@ -59,8 +71,8 @@ class _FormFornecedoresState extends State<FormFornecedores> {
                         controller: nameController,
                         hintText: "Nome",
                       ),
-                      TextFormFornecedores(
-                        teclado: TextInputType.name,
+                      TextFormClientes(
+                        teclado: TextInputType.number,
                         funcao: (value) {
                           if (nomeValidator(value)) {
                             return 'Insira o telefone';
@@ -70,8 +82,8 @@ class _FormFornecedoresState extends State<FormFornecedores> {
                         controller: telefoneController,
                         hintText: "Telefone",
                       ),
-                      TextFormFornecedores(
-                        teclado: TextInputType.name,
+                      TextFormClientes(
+                        teclado: TextInputType.streetAddress,
                         funcao: (value) {
                           if (nomeValidator(value)) {
                             return 'Insira o endereço';
@@ -81,20 +93,21 @@ class _FormFornecedoresState extends State<FormFornecedores> {
                         controller: enderecoController,
                         hintText: "Endereço",
                       ),
-                     
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
+                            _UseCasesCliente.criarCliente(nome: nameController.text, telefone: telefoneController.text, endereco: enderecoController.text,id: widget.cliente.id);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Criando novo Fornecedor...'),
+                                content: Text('Editando Cliente...'),
                               ),
                             );
-                            print(nameController.text);
+                            //print("nome: ${nameController.text}");
+
                             Navigator.pop(context);
                           }
                         },
-                        child: const Text('Adicionar'),
+                        child: const Text('Editar'),
                       ),
                     ],
                   ),

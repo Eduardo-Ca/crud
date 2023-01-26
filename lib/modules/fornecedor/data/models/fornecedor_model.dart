@@ -4,37 +4,34 @@ import 'package:teste/modules/cliente/domain/entities/cliente_entity.dart';
 
 class FornecedorModel extends Cliente {
   FornecedorModel({
-    int? Id,
-    String? Nome,
-    String? Telefone,
-    String? Endereco,
+    int? id,
+    String? nome,
+    String? telefone,
+    String? endereco,
   }) : super(
-          id: Id ?? 0,
-          nome: Nome ?? "",
-          telefone: Telefone ?? "",
-          endereco: Endereco ?? "",
+          id: id ?? 0,
+          nome: nome ?? "",
+          telefone: telefone ?? "",
+          endereco: endereco ?? "",
         );
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'Id': id,
-      'Nome': nome,
-      'Telefone': telefone,
-      'Endereco': endereco
+      'id': id,
+      'nome': nome,
+      'telefone': telefone,
+      'endereco': endereco
     };
   }
 
-  factory FornecedorModel.fromMap(Map<String, dynamic> map) {
+  factory FornecedorModel.fromJson(Map<String, dynamic> map) {
     return FornecedorModel(
-      Id: map['Id'] as int,
-      Nome: map['nome'] as String,
-      Telefone: map['telefone'] as String,
-      Endereco: map['endereco'] as String,
+      id: map['id'] as int,
+      nome: map['nome'] as String,
+      telefone: map['telefone'] as String,
+      endereco: map['endereco'] as String,
     );
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory FornecedorModel.fromJson(String source) =>
-      FornecedorModel.fromMap(json.decode(source) as Map<String, dynamic>);
+ 
 }

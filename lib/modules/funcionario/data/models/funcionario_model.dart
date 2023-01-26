@@ -5,41 +5,38 @@ import 'package:teste/modules/funcionario/domain/entities/funcionario_entity.dar
 
 class FuncionarioModel extends Funcionario {
   FuncionarioModel({
-    int? Id,
-    String? Nome,
-    String? Telefone,
-    String? Endereco,
-    int? Cargo
+    int? id,
+    String? nome,
+    String? telefone,
+    String? endereco,
+    int? cargo
   }) : super(
-          id: Id ?? 0,
-          nome: Nome ?? "",
-          telefone: Telefone ?? "",
-          endereco: Endereco ?? "",
-          cargo: Cargo ?? 0
+          id: id ?? 0,
+          nome: nome ?? "",
+          telefone: telefone ?? "",
+          endereco: endereco ?? "",
+          cargo: cargo ?? 0
         );
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'Id': id,
-      'Nome': nome,
-      'Telefone': telefone,
-      'Endereco': endereco,
-      'Cargo' : cargo
+      'id': id,
+      'nome': nome,
+      'telefone': telefone,
+      'endereco': endereco,
+      'cargo' : cargo
     };
   }
 
-  factory FuncionarioModel.fromMap(Map<String, dynamic> map) {
+  factory FuncionarioModel.fromJson(Map<String, dynamic> map) {
     return FuncionarioModel(
-      Id: map['Id'] as int,
-      Nome: map['nome'] as String,
-      Telefone: map['telefone'] as String,
-      Endereco: map['endereco'] as String,
-      Cargo: map['Cargo'] as int
+      id: map['id'] as int,
+      nome: map['nome'] as String,
+      telefone: map['telefone'] as String,
+      endereco: map['endereco'] as String,
+      cargo: map['cargo'] as int
     );
   }
 
-  String toJson() => json.encode(toMap());
 
-  factory FuncionarioModel.fromJson(String source) =>
-      FuncionarioModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:teste/modules/cliente/data/models/cliente_model.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class ClientesCard extends StatefulWidget {
-  ClienteModel cliente;
-   ClientesCard({
-    super.key,
-    required this.cliente
-  });
+import 'package:teste/modules/fornecedor/data/models/fornecedor_model.dart';
+
+class FornecedoresCard extends StatefulWidget {
+  FornecedorModel fornecedor;
+  FornecedoresCard({super.key, required this.fornecedor});
 
   @override
-  State<ClientesCard> createState() => _ClientesCardState();
+  State<FornecedoresCard> createState() => _FornecedoresCardState();
 }
 
-class _ClientesCardState extends State<ClientesCard> {
+class _FornecedoresCardState extends State<FornecedoresCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -40,10 +39,8 @@ class _ClientesCardState extends State<ClientesCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Icon(
-                        Icons.people,
-                        color: Colors.black,
+                        MdiIcons.humanDolly,
                         size: 28,
-                      
                       ),
                     ],
                   ),
@@ -60,11 +57,11 @@ class _ClientesCardState extends State<ClientesCard> {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
+                    children: [
                       Padding(
-                        padding: const EdgeInsets.only(right:10.0),
+                        padding: const EdgeInsets.only(right: 90.0),
                         child: Text(
-                          widget.cliente.nome,
+                          widget.fornecedor.nome,
                           style: const TextStyle(
                             fontSize: 23,
                             fontWeight: FontWeight.bold,

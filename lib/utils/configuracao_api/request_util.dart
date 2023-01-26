@@ -4,8 +4,6 @@ import 'dart:io';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teste/utils/compartilhados/alerta/alerta.componente.dart';
 import 'package:teste/utils/compartilhados/carregando/carregando-alerta.componente.dart';
 import 'package:teste/utils/constants/request_constante.dart';
@@ -20,9 +18,8 @@ class RequestUtil {
 
   // 1- criação do objeto dio
   _criarObjDio() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String urlBase =
-        "http://${prefs.getString('ip')}:${prefs.getString('porta')}/";
+  
+    String urlBase = "http://172.19.99.124:5000/";
 
     dio = Dio(BaseOptions(
         connectTimeout: 50000,
@@ -96,8 +93,6 @@ class RequestUtil {
       response = await requisicao;
 
       if (response.statusCode == 400) {
-        
-
         _exibeErros(context);
         print('Erro status: 400');
 
@@ -123,13 +118,12 @@ class RequestUtil {
         }
         return response;
       } else {
-
         // debugPrint(response.toString());
         if (_isloading && context != null) {
           CarregandoAlertaComponente().dismissCarregar(context);
         }
-          return response;
-      } 
+        return response;
+      }
     } catch (e) {
       if (_isloading && context != null) {
         CarregandoAlertaComponente().dismissCarregar(context);
@@ -149,7 +143,6 @@ class RequestUtil {
             sincronizando: sincronizando);
       }
 
-     
       return response;
     }
   }

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:teste/modules/produto/presenter/components/text_form_produtos.dart';
+import 'package:teste/modules/fornecedor/presenter/components/text_form_fornecedores.dart';
 
-class FormProdutos extends StatefulWidget {
-  const FormProdutos({super.key});
+class FormFornecedores extends StatefulWidget {
+  const FormFornecedores({super.key});
 
   @override
-  State<FormProdutos> createState() => _FormProdutosState();
+  State<FormFornecedores> createState() => _FormFornecedoresState();
 }
 
-class _FormProdutosState extends State<FormProdutos> {
+class _FormFornecedoresState extends State<FormFornecedores> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController quantidadeController = TextEditingController();
-  TextEditingController precoController = TextEditingController();
-  TextEditingController descricaoController = TextEditingController();
+  TextEditingController telefoneController = TextEditingController();
+  TextEditingController enderecoController = TextEditingController();
+
 
   final _formkey = GlobalKey<FormState>();
 
@@ -29,7 +29,7 @@ class _FormProdutosState extends State<FormProdutos> {
       key: _formkey,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Novo Produto'),
+          title: const Text('Novo Fornecedor'),
         ),
         body: Center(
           child: SingleChildScrollView(
@@ -46,7 +46,9 @@ class _FormProdutosState extends State<FormProdutos> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TextFormProdutos(
+          //! ============== TEXT FORMS ===========
+                      TextFormFornecedores(
+                        teclado: TextInputType.name,
                         funcao: (String? value) {
                           if (nomeValidator(value)) {
                             return 'Insira o nome';
@@ -54,49 +56,37 @@ class _FormProdutosState extends State<FormProdutos> {
                           return null;
                         },
                         controller: nameController,
-                        hintText: " Nome",
-                        teclado: TextInputType.name,
+                        hintText: "Nome",
                       ),
-                      TextFormProdutos(
+                      TextFormFornecedores(
+                        teclado: TextInputType.name,
                         funcao: (value) {
                           if (nomeValidator(value)) {
-                            return 'Insira a descrição';
+                            return 'Insira o telefone';
                           }
                           return null;
                         },
-                        controller: descricaoController,
-                        hintText: "Descrição",
+                        controller: telefoneController,
+                        hintText: "Telefone",
+                      ),
+                      TextFormFornecedores(
                         teclado: TextInputType.name,
-                      ),
-                       TextFormProdutos(
-                        funcao: (String? value) {
+                        funcao: (value) {
                           if (nomeValidator(value)) {
-                            return 'Insira o preço';
+                            return 'Insira o endereço';
                           }
                           return null;
                         },
-                        controller: precoController,
-                        hintText: "Preço",
-                        teclado: TextInputType.number,
+                        controller: enderecoController,
+                        hintText: "Endereço",
                       ),
-                       TextFormProdutos(
-                        funcao: (String? value) {
-                          if (nomeValidator(value)) {
-                            return 'Insira a quantidade';
-                          }
-                          return null;
-                        },
-                        controller: quantidadeController,
-                        hintText: "Quantidade",
-                        teclado: TextInputType.name,
-                      ),
-
+                     
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Criando novo Produto'),
+                                content: Text('Criando novo Fornecedor...'),
                               ),
                             );
                             print(nameController.text);

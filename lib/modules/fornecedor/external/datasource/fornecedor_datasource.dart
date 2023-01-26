@@ -1,6 +1,4 @@
-import 'package:flutter/widgets.dart';
-import 'package:teste/modules/cliente/data/datasource/cliente_datasource_abst.dart';
-import 'package:teste/modules/cliente/data/models/cliente_model.dart';
+
 import 'package:teste/modules/fornecedor/data/datasource/fornecedor_datasource_abst.dart';
 import 'package:teste/modules/fornecedor/data/models/fornecedor_model.dart';
 import 'package:teste/utils/configuracao_api/request_util.dart';

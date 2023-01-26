@@ -13,4 +13,19 @@ class UseCasesCliente extends IUsecasesCliente {
 
     return result;
   }
+  
+  @override
+  Future<dynamic> criarCliente({ nome,  telefone,   endereco,id}) async{
+   
+    final resultado = await repositoryRemoto.criarCliente(nome,telefone,endereco,id);
+    return resultado;
+  }
+  
+  @override
+  Future deletarCliente({required int id}) async{
+   final resultado = await repositoryRemoto.deletarCliente(id: id);
+    return resultado;
+  }
+
+ 
 }

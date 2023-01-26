@@ -25,7 +25,7 @@ class _TextFormClientesState extends State<TextFormClientes> {
             borderRadius: BorderRadius.circular(15.0),
           ),
           hintText: widget.hintText,
-          fillColor: Colors.white60,
+          fillColor: Colors.grey.withOpacity(0.2),
           filled: true,
         ),
       ),

@@ -34,6 +34,9 @@ class _BotoesDrawerState extends State<BotoesDrawer> {
                 )),
           ),
         ),
+        const Divider(
+                  thickness: 2,
+                ),
         ListTile(
           leading: const Icon(
             Icons.people,

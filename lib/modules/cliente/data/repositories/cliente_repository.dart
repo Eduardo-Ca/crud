@@ -1,5 +1,3 @@
-
-
 import 'package:teste/modules/cliente/data/datasource/cliente_datasource_abst.dart';
 import 'package:teste/modules/cliente/data/models/cliente_model.dart';
 import 'package:teste/modules/cliente/domain/repositories/cliente_repository.dart';
@@ -7,13 +5,25 @@ import 'package:teste/modules/cliente/domain/repositories/cliente_repository.dar
 class ClienteRepository implements IClienteRepository {
   final IClienteDatasource dataSource;
 
-  ClienteRepository(this.dataSource); //this.datasourceLocal, //this.datasourceRemoto,
+  ClienteRepository(
+      this.dataSource); //this.datasourceLocal, //this.datasourceRemoto,
 
   @override
   Future<List<ClienteModel>> obterTodosClientes() async {
     return await dataSource.obterTodosClientes();
   }
 
-  
-  
+  @override
+  Future<dynamic> criarCliente(
+       String? nome,
+       String? telefone,
+       String? endereco,
+       int? id) async {
+    return await dataSource.criarCliente(nome, telefone, endereco,id);
+  }
+
+  @override
+  Future<dynamic> deletarCliente({required int id}) async {
+    return await dataSource.deletarCliente(id);
+  }
 }

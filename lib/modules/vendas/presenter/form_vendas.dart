@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:teste/modules/cliente/presenter/components/text_form_clientes.dart';
-import 'package:teste/modules/funcionario/presenter/components/text_form_funcionarios.dart';
-import 'package:teste/modules/produto/presenter/components/text_form_produtos.dart';
 
 class FormVendas extends StatefulWidget {
   const FormVendas({super.key});
@@ -32,11 +29,27 @@ class _FormVendasState extends State<FormVendas> {
       key: _formkey,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Novo Venda'),
+          title: const Text('Nova Venda'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                if (_formkey.currentState!.validate()) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Criando nova venda...'),
+                    ),
+                  );
+
+                  Navigator.pop(context);
+                }
+              },
+              icon: const Icon(Icons.check, color: Colors.white, size: 32),
+            )
+          ],
         ),
         body: Center(
           child: SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: 650,
               width: 375,
               child: Card(
@@ -64,10 +77,9 @@ class _FormVendasState extends State<FormVendas> {
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
                                     hintText: "Escolha o cliente",
-                                    fillColor: Colors.white60,
+                                    fillColor: Colors.grey.withOpacity(0.2),
                                     filled: true,
                                   ),
-                                  //! validator pra n vir nulo
                                   isExpanded: true,
                                   icon: const Icon(Icons.people),
                                   value: (value.isEmpty) ? null : value,
@@ -95,10 +107,9 @@ class _FormVendasState extends State<FormVendas> {
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
                                     hintText: "Escolha o funcionário",
-                                    fillColor: Colors.white60,
+                                    fillColor: Colors.grey.withOpacity(0.2),
                                     filled: true,
                                   ),
-                                  //! validator pra n vir nulo
                                   isExpanded: true,
                                   icon: const Icon(
                                     MdiIcons.briefcase,
@@ -120,66 +131,49 @@ class _FormVendasState extends State<FormVendas> {
                       ),
 
                       //! Lista de produtos
-                      Container(
-                        height: 330,
-                        width: 370,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                            color: Colors.brown[100],
-                            border: Border.all(color: Colors.red)),
-                            
-                        child: Column(
-                          children: [
-                            //! ===================== TOTAL ======================
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 180.0, top: 260),
-                              child: SizedBox(
-                                width: 140,
-                                height: 60,
-                                child: Card(
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  color: Colors.red,
-                                  child: const Center(
-                                      child: Text(
-                                    "Total: R\$0,00",
-                                    style: TextStyle(
-                                        fontSize: 17, color: Colors.white),
-                                  )),
-                                ),
-                              ),
-                            ),
-                          ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Container(
+                          height: 330,
+                          width: 370,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.grey.withOpacity(0.2),
+                              border: Border.all(color: Colors.red)),
+                          child: Column(
+                            children: [],
+                          ),
                         ),
                       ),
-
-                      //!========== ADICIONAR =========
-                      SizedBox(
-                        height: 30,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_formkey.currentState!.validate()) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Criando nova venda...'),
-                              ),
-                            );
-
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: const Text('Adicionar'),
-                      ),
+                      _total(),
                     ],
                   ),
                 ),
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  _total() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 18.0),
+      child: SizedBox(
+        width: 170,
+        height: 70,
+        child: Card(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          color: Colors.red,
+          child: const Center(
+              child: Text(
+            "Total: R\$0,00",
+            style: TextStyle(fontSize: 17, color: Colors.white),
+          )),
         ),
       ),
     );

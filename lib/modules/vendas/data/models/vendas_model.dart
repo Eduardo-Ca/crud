@@ -5,20 +5,20 @@ import 'package:teste/modules/vendas/domain/entities/vendas_entity.dart';
 
 class VendasModel extends Vendas {
   VendasModel({
-    int? Id,
-    int? FuncionarioId,
-    int? ClienteId,
-    int? QuantidadeItens,
-    double? ValorCompra,
+    int? id,
+    int? funcionarioId,
+    int? clienteId,
+    int? quantidadeItens,
+    double? valorCompra,
   }) : super(
-            id: Id ?? 0,
-            funcionarioId: FuncionarioId ?? 0,
-            clienteId: ClienteId ?? 0,
-            quantidadeItens: QuantidadeItens ?? 0,
-             valorCompra: ValorCompra ?? 0,
+            id: id ?? 0,
+            funcionarioId: funcionarioId ?? 0,
+            clienteId: clienteId ?? 0,
+            quantidadeItens: quantidadeItens ?? 0,
+             valorCompra: valorCompra ?? 0,
             );
 
-             Map<String, dynamic> toMap() {
+             Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'funcionarioId': funcionarioId,
@@ -28,17 +28,15 @@ class VendasModel extends Vendas {
     };
   }
 
-  factory VendasModel.fromMap(Map<String, dynamic> map) {
+  factory VendasModel.fromJson(Map<String, dynamic> map) {
     return VendasModel(
-      Id: map['id'] as int,
-      FuncionarioId: map['funcionarioId'] as int,
-      ClienteId: map['clienteId'] as int,
-      QuantidadeItens: map['quantidadeItens'] as int,
-      ValorCompra: map['ValorCompra'] as double,
+      id: map['id'] as int,
+      funcionarioId: map['funcionarioId'] as int,
+      clienteId: map['clienteId'] as int,
+      quantidadeItens: map['quantidadeItens'] as int,
+      valorCompra: map['ValorCompra'] as double,
     );
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory VendasModel.fromJson(String source) => VendasModel.fromMap(json.decode(source) as Map<String, dynamic>);
+ 
 }

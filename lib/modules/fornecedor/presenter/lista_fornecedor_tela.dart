@@ -1,11 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import 'package:get_it/get_it.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:teste/modules/cliente/presenter/form_clientes.dart';
-import 'package:teste/modules/fornecedor/presenter/components/form_fornecedores.dart';
-import 'package:teste/modules/produto/presenter/components/form_produtos.dart';
+import 'package:teste/modules/fornecedor/data/models/fornecedor_model.dart';
+
+import 'package:teste/modules/fornecedor/domain/usecases/fornecedor_usecases.dart';
+import 'package:teste/modules/fornecedor/presenter/components/lista_fornecedores_card.dart';
+import 'package:teste/modules/fornecedor/presenter/form_fornecedores.dart';
 import 'package:teste/utils/compartilhados/botoes_drawer.dart';
 
 class ListaFornecedoresTela extends StatefulWidget {
@@ -16,36 +20,61 @@ class ListaFornecedoresTela extends StatefulWidget {
 }
 
 class _ListaFornecedoresTelaState extends State<ListaFornecedoresTela> {
-
+  late UseCasesFornecedor _UseCasesFornecedor;
   Timer? _debounce;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _UseCasesFornecedor = GetIt.I.get<UseCasesFornecedor>();
+  }
 
   @override
   void dispose() {
     super.dispose();
     _debounce?.cancel();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const Drawer(
-          child: BotoesDrawer(),
+      drawer: const Drawer(
+        child: BotoesDrawer(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (contextNew) => const FormFornecedores()));
+        },
+        child: const Icon(
+          MdiIcons.dolly,
+          size: 28,
+          color: Colors.white,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (contextNew) => const FormFornecedores()));
-          },
-          child: const Icon(MdiIcons.dolly,size: 28,),
-        ),
-        appBar: AppBar(
-          title: const Text("Fornecedores"),
-        ),
-        body:  Column(
+      ),
+      appBar: AppBar(
+        title: const Text("Fornecedores"),
+      ),
+      body: Column(
         children: [
-          //!============== BARRA DE PESQUISA ===============
-          Padding(
+        
+          _barraDePesquisa(),
+          const Divider(
+            thickness: 2,
+          ),
+
+          //!==================== LISTA DE CLIENTES ===============
+         
+        ],
+      ),
+    );
+  }
+
+  _barraDePesquisa(){
+    return    Padding(
             padding: const EdgeInsets.all(12.0),
             child: TextFormField(
               onChanged: (value) => {_onSearchChanged(value)},
@@ -65,14 +94,10 @@ class _ListaFornecedoresTelaState extends State<ListaFornecedoresTela> {
                 ),
               ),
             ),
-          ),
-          const Divider(
-            thickness: 2,
-          ),
-        ],
-      ),);
+          );
   }
-   // função para na hora da pesquisa esperar um tempo antes de fazer varias requisições para api
+
+  // função para na hora da pesquisa esperar um tempo antes de fazer varias requisições para api
   _onSearchChanged(String value) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
@@ -85,5 +110,58 @@ class _ListaFornecedoresTelaState extends State<ListaFornecedoresTela> {
         },
       );
     });
+  }
+
+  _listaDeFornecedores(){
+    return  FutureBuilder<List<FornecedorModel>>(
+            future: Future.delayed(const Duration(milliseconds: 400))
+                .then((value) => _UseCasesFornecedor.obterTodosFornecedores()),
+            initialData: const [],
+            builder: ((context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return const Center(child: Text("Erro"));
+
+                case ConnectionState.waiting:
+                  return const Center(
+                    child: SpinKitCircle(
+                      color: Colors.red,
+                      size: 50.0,
+                    ),
+                  );
+
+                case ConnectionState.active:
+                  break;
+                case ConnectionState.done:
+                  final List<FornecedorModel>? fornecedores = snapshot.data;
+                  if (fornecedores == null || fornecedores.isEmpty) {
+                    return const Center(
+                        child: Text(
+                      "Sem informação",
+                      style: TextStyle(fontSize: 26, color: Colors.black),
+                    ));
+                  } else {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: fornecedores.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          //tileColor: const Color.fromARGB(255, 110, 150, 209),
+                          //!=== Card ===
+                          title: FornecedoresCard(fornecedor: fornecedores[index],),
+
+                          onTap: (() {}),
+                        );
+                      },
+                    );
+                  }
+              }
+              return const Center(
+                  child: Text(
+                "Sem informação",
+                style: TextStyle(fontSize: 33, color: Colors.black),
+              ));
+            }),
+          );
   }
 }
