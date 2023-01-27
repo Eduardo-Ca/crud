@@ -7,7 +7,10 @@ abstract class IUsecasesCliente{
       obterTodosClientes(); 
 
   Future<dynamic>
-      criarCliente({String? nome, String? telefone, String? endereco,int? id}); 
+      criarCliente({String? nome, String? telefone, String? endereco}); 
+  
+   Future<dynamic>
+      editarCliente({String? nome, String? telefone, String? endereco,int? id}); 
 
   Future<dynamic>
       deletarCliente({required int id}); 

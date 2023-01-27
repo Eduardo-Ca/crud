@@ -14,4 +14,24 @@ class UseCasesFornecedor extends IUsecasesFornecedor {
 
     return result;
   }
+
+  @override
+  Future<dynamic> criarFornecedor({ nome,  telefone,   endereco}) async{
+   
+    final resultado = await repositoryRemoto.criarFornecedor(nome,telefone,endereco);
+    return resultado;
+  }
+
+   @override
+  Future<dynamic> editarFornecedor({ nome,  telefone,   endereco,id}) async{
+   
+    final resultado = await repositoryRemoto.editarFornecedor(nome,telefone,endereco,id);
+    return resultado;
+  }
+  
+  @override
+  Future deletarFornecedor({required int id}) async{
+   final resultado = await repositoryRemoto.deletarFornecedor(id: id);
+    return resultado;
+  }
 }

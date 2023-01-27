@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:teste/modules/fornecedor/data/models/fornecedor_model.dart';
+import 'package:teste/modules/funcionario/data/models/funcionario_model.dart';
+import 'package:teste/modules/produto/data/models/produto_model.dart';
 
-class FornecedoresCard extends StatefulWidget {
-  FornecedorModel fornecedor;
-  FornecedoresCard({super.key, required this.fornecedor});
+class ProdutoCard extends StatefulWidget {
+  ProdutoModel produto;
+  ProdutoCard({super.key, required this.produto});
 
   @override
-  State<FornecedoresCard> createState() => _FornecedoresCardState();
+  State<ProdutoCard> createState() => _ProdutoCardState();
 }
 
-class _FornecedoresCardState extends State<FornecedoresCard> {
+class _ProdutoCardState extends State<ProdutoCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
         margin: EdgeInsets.zero,
@@ -53,7 +57,7 @@ class _FornecedoresCardState extends State<FornecedoresCard> {
               children: [
                 Center(
                   child: Text(
-                    widget.fornecedor.nome,
+                    widget.produto.nome,
                     style: const TextStyle(
                       fontSize: 23,
                       fontWeight: FontWeight.bold,
@@ -72,6 +76,6 @@ class _FornecedoresCardState extends State<FornecedoresCard> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

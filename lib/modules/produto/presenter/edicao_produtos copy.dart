@@ -1,20 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:teste/modules/funcionario/presenter/components/text_form_funcionarios.dart';
+import 'package:get_it/get_it.dart';
+import 'package:teste/modules/produto/data/models/produto_model.dart';
+import 'package:teste/modules/produto/domain/usecases/produto_usecases.dart';
+import 'package:teste/modules/produto/presenter/components/text_form_produtos.dart';
 
-class FormFuncionarios extends StatefulWidget {
-  const FormFuncionarios({super.key});
+class EdicaoProdutos extends StatefulWidget {
+  ProdutoModel produto;
+  EdicaoProdutos({super.key, required this.produto});
 
   @override
-  State<FormFuncionarios> createState() => _FormFuncionariosState();
+  State<EdicaoProdutos> createState() => _EdicaoProdutosState();
 }
 
-class _FormFuncionariosState extends State<FormFuncionarios> {
+class _EdicaoProdutosState extends State<EdicaoProdutos> {
   TextEditingController nameController = TextEditingController();
- TextEditingController telefoneController = TextEditingController();
-  TextEditingController enderecoController = TextEditingController();
-   TextEditingController cargoController = TextEditingController();
+  TextEditingController quantidadeController = TextEditingController();
+  TextEditingController precoController = TextEditingController();
+  TextEditingController descricaoController = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
+
+  late UseCasesProduto _UseCasesProduto;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _UseCasesProduto = GetIt.I.get<UseCasesProduto>();
+  }
 
   bool nomeValidator(String? value) {
     if (value != null && value.isEmpty) {
@@ -29,11 +42,11 @@ class _FormFuncionariosState extends State<FormFuncionarios> {
       key: _formkey,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Novo Funcionário'),
+          title: Text('Editando:${widget.produto.nome}'),
         ),
         body: Center(
           child: SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: 650,
               width: 375,
               child: Card(
@@ -46,9 +59,7 @@ class _FormFuncionariosState extends State<FormFuncionarios> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-          //! ============== TEXT FORMS ===========
-                       TextFormVendas(
-                        teclado: TextInputType.name,
+                      TextFormProdutos(
                         funcao: (String? value) {
                           if (nomeValidator(value)) {
                             return 'Insira o nome';
@@ -56,50 +67,56 @@ class _FormFuncionariosState extends State<FormFuncionarios> {
                           return null;
                         },
                         controller: nameController,
-                        hintText: "Nome",
-                      ),
-                      TextFormVendas(
+                        hintText: " Nome",
                         teclado: TextInputType.name,
+                      ),
+                      TextFormProdutos(
                         funcao: (value) {
                           if (nomeValidator(value)) {
-                            return 'Insira o telefone';
+                            return 'Insira a descrição';
                           }
                           return null;
                         },
-                        controller: telefoneController,
-                        hintText: "Telefone",
-                      ),
-
-                       TextFormVendas(
+                        controller: descricaoController,
+                        hintText: "Descrição",
                         teclado: TextInputType.name,
-                        funcao: (value) {
+                      ),
+                      TextFormProdutos(
+                        funcao: (String? value) {
                           if (nomeValidator(value)) {
-                            return 'Insira o endereço';
+                            return 'Insira o preço';
                           }
                           return null;
                         },
-                        controller: enderecoController,
-                        hintText: "Endereço",
-                      ),
-                     
-                      TextFormVendas(
+                        controller: precoController,
+                        hintText: "Preço",
                         teclado: TextInputType.number,
-                        funcao: (value) {
+                      ),
+                      TextFormProdutos(
+                        funcao: (String? value) {
                           if (nomeValidator(value)) {
-                            return 'Insira o cargo';
+                            return 'Insira a quantidade';
                           }
                           return null;
                         },
-                        controller: cargoController,
-                        hintText: "Cargo",
+                        controller: quantidadeController,
+                        hintText: "Quantidade",
+                        teclado: TextInputType.name,
                       ),
-
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
+                            _UseCasesProduto.editarProduto(
+                                nome: nameController.text,
+                                descricao: descricaoController.text,
+                                quantidadeEstoque:
+                                    int.parse(quantidadeController.text),
+                                precoUnitario:
+                                    double.parse(precoController.text),
+                                id: widget.produto.id);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Criando novo Funcionário...'),
+                                content: Text('Criando novo Produto'),
                               ),
                             );
                             print(nameController.text);

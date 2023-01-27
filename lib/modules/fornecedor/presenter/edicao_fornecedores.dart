@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:teste/modules/fornecedor/data/models/fornecedor_model.dart';
 import 'package:teste/modules/fornecedor/domain/usecases/fornecedor_usecases.dart';
 import 'package:teste/modules/fornecedor/presenter/components/text_form_fornecedores.dart';
 
-class FormFornecedores extends StatefulWidget {
-  const FormFornecedores({super.key});
+class EdicaoFornecedores extends StatefulWidget {
+  FornecedorModel fornecedor;
+  EdicaoFornecedores({super.key,required this.fornecedor});
 
   @override
-  State<FormFornecedores> createState() => _FormFornecedoresState();
+  State<EdicaoFornecedores> createState() => _EdicaoFornecedoresState();
 }
 
-class _FormFornecedoresState extends State<FormFornecedores> {
+class _EdicaoFornecedoresState extends State<EdicaoFornecedores> {
   TextEditingController nameController = TextEditingController();
   TextEditingController telefoneController = TextEditingController();
   TextEditingController enderecoController = TextEditingController();
@@ -40,7 +42,7 @@ class _FormFornecedoresState extends State<FormFornecedores> {
       key: _formkey,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Novo Fornecedor'),
+          title:  Text("Editando:${widget.fornecedor.nome}"),
         ),
         body: Center(
           child: SingleChildScrollView(
@@ -95,17 +97,17 @@ class _FormFornecedoresState extends State<FormFornecedores> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            _UseCasesFornecedor.criarFornecedor(nome:nameController.text, telefone:telefoneController.text, endereco:enderecoController.text );
+                            _UseCasesFornecedor.editarFornecedor(nome:nameController.text, telefone:telefoneController.text, endereco:enderecoController.text,id: widget.fornecedor.id);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Criando novo Fornecedor...'),
+                                content: Text('Editando Fornecedor...'),
                               ),
                             );
                             print(nameController.text);
                             Navigator.pop(context);
                           }
                         },
-                        child: const Text('Adicionar'),
+                        child: const Text('Editar'),
                       ),
                     ],
                   ),

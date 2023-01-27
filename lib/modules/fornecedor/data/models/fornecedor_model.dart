@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:teste/modules/cliente/domain/entities/cliente_entity.dart';
+import 'package:teste/modules/fornecedor/domain/entities/fornecedor_entity.dart';
 
-class FornecedorModel extends Cliente {
+class FornecedorModel extends Fornecedor {
   FornecedorModel({
     int? id,
     String? nome,

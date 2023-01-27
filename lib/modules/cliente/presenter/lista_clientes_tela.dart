@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
+import 'package:lottie/lottie.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:teste/modules/cliente/data/models/cliente_model.dart';
 import 'package:teste/modules/cliente/domain/entities/cliente_entity.dart';
@@ -65,6 +66,7 @@ class _ListaCleintesTelaState extends State<ListaCleintesTela> {
               thickness: 2,
             ),
             _listaDecClientes(),
+            const SizedBox(height: 60,)
           ],
         ),
       ),
@@ -133,10 +135,20 @@ class _ListaCleintesTelaState extends State<ListaCleintesTela> {
           case ConnectionState.done:
             final List<ClienteModel>? clientes = snapshot.data;
             if (clientes == null || clientes.isEmpty) {
-              return const Center(
-                  child: Text(
-                "Sem informação",
-                style: TextStyle(fontSize: 26, color: Colors.black),
+              return Center(
+                  child: Column(
+                children: [
+                  SizedBox(
+                    width: 340,
+                    height: 320,
+                    child: Lottie.network(
+                        "https://assets7.lottiefiles.com/packages/lf20_rIg0v53Pan.json"),
+                  ),
+                  const Text(
+                    "Sem informação",
+                    style: TextStyle(fontSize: 26, color: Colors.grey),
+                  ),
+                ],
               ));
             } else {
               return ListView.builder(
@@ -170,7 +182,6 @@ class _ListaCleintesTelaState extends State<ListaCleintesTela> {
                         }),
                       ));
                 },
-               
               );
             }
         }

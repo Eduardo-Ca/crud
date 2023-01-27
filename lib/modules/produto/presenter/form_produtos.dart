@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:teste/modules/fornecedor/domain/usecases/fornecedor_usecases.dart';
-import 'package:teste/modules/fornecedor/presenter/components/text_form_fornecedores.dart';
+import 'package:teste/modules/produto/domain/usecases/produto_usecases.dart';
+import 'package:teste/modules/produto/presenter/components/text_form_produtos.dart';
 
-class FormFornecedores extends StatefulWidget {
-  const FormFornecedores({super.key});
+class FormProdutos extends StatefulWidget {
+  const FormProdutos({super.key});
 
   @override
-  State<FormFornecedores> createState() => _FormFornecedoresState();
+  State<FormProdutos> createState() => _FormProdutosState();
 }
 
-class _FormFornecedoresState extends State<FormFornecedores> {
+class _FormProdutosState extends State<FormProdutos> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController telefoneController = TextEditingController();
-  TextEditingController enderecoController = TextEditingController();
+  TextEditingController quantidadeController = TextEditingController();
+  TextEditingController precoController = TextEditingController();
+  TextEditingController descricaoController = TextEditingController();
 
-   late UseCasesFornecedor _UseCasesFornecedor;
+  final _formkey = GlobalKey<FormState>();
+
+  late UseCasesProduto _UseCasesProduto;
 
   @override
   void initState() {
     super.initState();
 
-    _UseCasesFornecedor = GetIt.I.get<UseCasesFornecedor>();
+    _UseCasesProduto = GetIt.I.get<UseCasesProduto>();
   }
-
-
-  final _formkey = GlobalKey<FormState>();
 
   bool nomeValidator(String? value) {
     if (value != null && value.isEmpty) {
@@ -40,7 +40,7 @@ class _FormFornecedoresState extends State<FormFornecedores> {
       key: _formkey,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Novo Fornecedor'),
+          title: const Text('Novo Produto'),
         ),
         body: Center(
           child: SingleChildScrollView(
@@ -57,9 +57,7 @@ class _FormFornecedoresState extends State<FormFornecedores> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-          //! ============== TEXT FORMS ===========
-                      TextFormFornecedores(
-                        teclado: TextInputType.name,
+                      TextFormProdutos(
                         funcao: (String? value) {
                           if (nomeValidator(value)) {
                             return 'Insira o nome';
@@ -67,38 +65,55 @@ class _FormFornecedoresState extends State<FormFornecedores> {
                           return null;
                         },
                         controller: nameController,
-                        hintText: "Nome",
-                      ),
-                      TextFormFornecedores(
+                        hintText: " Nome",
                         teclado: TextInputType.name,
+                      ),
+                      TextFormProdutos(
                         funcao: (value) {
                           if (nomeValidator(value)) {
-                            return 'Insira o telefone';
+                            return 'Insira a descrição';
                           }
                           return null;
                         },
-                        controller: telefoneController,
-                        hintText: "Telefone",
-                      ),
-                      TextFormFornecedores(
+                        controller: descricaoController,
+                        hintText: "Descrição",
                         teclado: TextInputType.name,
-                        funcao: (value) {
+                      ),
+                      TextFormProdutos(
+                        funcao: (String? value) {
                           if (nomeValidator(value)) {
-                            return 'Insira o endereço';
+                            return 'Insira o preço';
                           }
                           return null;
                         },
-                        controller: enderecoController,
-                        hintText: "Endereço",
+                        controller: precoController,
+                        hintText: "Preço",
+                        teclado: TextInputType.number,
                       ),
-                     
+                      TextFormProdutos(
+                        funcao: (String? value) {
+                          if (nomeValidator(value)) {
+                            return 'Insira a quantidade';
+                          }
+                          return null;
+                        },
+                        controller: quantidadeController,
+                        hintText: "Quantidade",
+                        teclado: TextInputType.name,
+                      ),
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            _UseCasesFornecedor.criarFornecedor(nome:nameController.text, telefone:telefoneController.text, endereco:enderecoController.text );
+                            _UseCasesProduto.criarProduto(
+                                nome: nameController.text,
+                                descricao: descricaoController.text,
+                                quantidadeEstoque:
+                                    int.parse(quantidadeController.text),
+                                precoUnitario:
+                                    double.parse(precoController.text));
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Criando novo Fornecedor...'),
+                                content: Text('Criando novo Produto'),
                               ),
                             );
                             print(nameController.text);

@@ -9,13 +9,13 @@ class FuncionarioModel extends Funcionario {
     String? nome,
     String? telefone,
     String? endereco,
-    int? cargo
+    String? cargo
   }) : super(
           id: id ?? 0,
           nome: nome ?? "",
           telefone: telefone ?? "",
           endereco: endereco ?? "",
-          cargo: cargo ?? 0
+          cargo: cargo ?? ""
         );
 
   Map<String, dynamic> toJson() {
@@ -34,7 +34,7 @@ class FuncionarioModel extends Funcionario {
       nome: map['nome'] as String,
       telefone: map['telefone'] as String,
       endereco: map['endereco'] as String,
-      cargo: map['cargo'] as int
+      cargo: map['cargo'] as String
     );
   }
 

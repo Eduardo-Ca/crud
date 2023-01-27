@@ -8,7 +8,7 @@ class Request {
 
   static const int UNAUTHORIZED = 401;
   static const int QUANTIDADE_TENTATIVAS = 5;
-} 
+}
 
 class Endpoints {
   //GET
@@ -18,13 +18,17 @@ class Endpoints {
   static const String BUSCAR_PRODUTOS = 'controller/ExibeProdutos';
   static const String BUSCAR_FUNCIONARIOS = 'controller/ExibeFuncionarios';
   static const String BUSCAR_VENDAS = 'Venda/ExibeVendas';
- 
 
   //POST
 
   static const String SALVAR_CLIENTE = 'controller/SaveClient';
+  static const String SALVAR_FORNECEDOR = 'controller/SaveFornecedor';
+  static const String SALVAR_FUNCIONARIO = 'controller/SaveFuncionario';
+  static const String SALVAR_PRODUTO = '/controller/SaveProduto';
 
   //DELETE
   static const String DELETAR_CLIENTE = 'controller/DeletaCliente';
-
+  static const String DELETAR_FORNECEDOR = 'controller/DeletaFornecedor';
+  static const String DELETAR_FUNCIONARIO = 'controller​/DeletaFuncionario';
+  static const String DELETAR_PRODUTO = '/controller/DeletaProduto';
 }

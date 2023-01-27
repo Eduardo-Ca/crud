@@ -18,8 +18,18 @@ class ClienteRepository implements IClienteRepository {
        String? nome,
        String? telefone,
        String? endereco,
+       ) async {
+    return await dataSource.criarCliente(nome, telefone, endereco);
+  }
+
+  
+  @override
+  Future<dynamic> editarCliente(
+       String? nome,
+       String? telefone,
+       String? endereco,
        int? id) async {
-    return await dataSource.criarCliente(nome, telefone, endereco,id);
+    return await dataSource.editarCliente(nome, telefone, endereco,id);
   }
 
   @override

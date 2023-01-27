@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:teste/modules/produto/presenter/components/text_form_produtos.dart';
+import 'package:get_it/get_it.dart';
+import 'package:teste/modules/funcionario/data/models/funcionario_model.dart';
+import 'package:teste/modules/funcionario/domain/entities/funcionario_entity.dart';
+import 'package:teste/modules/funcionario/domain/usecases/funcionario_usecases.dart';
+import 'package:teste/modules/funcionario/presenter/components/text_form_funcionarios.dart';
 
-class FormProdutos extends StatefulWidget {
-  const FormProdutos({super.key});
+class EdicaoFuncionarios extends StatefulWidget {
+  FuncionarioModel funcionario;
+   EdicaoFuncionarios({super.key, required this.funcionario});
 
   @override
-  State<FormProdutos> createState() => _FormProdutosState();
+  State<EdicaoFuncionarios> createState() => _EdicaoFuncionariosState();
 }
 
-class _FormProdutosState extends State<FormProdutos> {
+class _EdicaoFuncionariosState extends State<EdicaoFuncionarios> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController quantidadeController = TextEditingController();
-  TextEditingController precoController = TextEditingController();
-  TextEditingController descricaoController = TextEditingController();
+ TextEditingController telefoneController = TextEditingController();
+  TextEditingController enderecoController = TextEditingController();
+   TextEditingController cargoController = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
+
+   late UseCasesFuncionario _UseCasesFuncionario;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _UseCasesFuncionario = GetIt.I.get<UseCasesFuncionario>();
+  }
 
   bool nomeValidator(String? value) {
     if (value != null && value.isEmpty) {
@@ -29,11 +43,11 @@ class _FormProdutosState extends State<FormProdutos> {
       key: _formkey,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Novo Produto'),
+          title:  Text('Editando:${widget.funcionario.nome}'),
         ),
         body: Center(
           child: SingleChildScrollView(
-            child: SizedBox(
+            child: Container(
               height: 650,
               width: 375,
               child: Card(
@@ -46,7 +60,9 @@ class _FormProdutosState extends State<FormProdutos> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TextFormProdutos(
+          //! ============== TEXT FORMS ===========
+                       TextFormVendas(
+                        teclado: TextInputType.name,
                         funcao: (String? value) {
                           if (nomeValidator(value)) {
                             return 'Insira o nome';
@@ -54,49 +70,51 @@ class _FormProdutosState extends State<FormProdutos> {
                           return null;
                         },
                         controller: nameController,
-                        hintText: " Nome",
-                        teclado: TextInputType.name,
+                        hintText: "Nome",
                       ),
-                      TextFormProdutos(
+                      TextFormVendas(
+                        teclado: TextInputType.name,
                         funcao: (value) {
                           if (nomeValidator(value)) {
-                            return 'Insira a descrição';
+                            return 'Insira o telefone';
                           }
                           return null;
                         },
-                        controller: descricaoController,
-                        hintText: "Descrição",
-                        teclado: TextInputType.name,
+                        controller: telefoneController,
+                        hintText: "Telefone",
                       ),
-                       TextFormProdutos(
-                        funcao: (String? value) {
+
+                       TextFormVendas(
+                        teclado: TextInputType.name,
+                        funcao: (value) {
                           if (nomeValidator(value)) {
-                            return 'Insira o preço';
+                            return 'Insira o endereço';
                           }
                           return null;
                         },
-                        controller: precoController,
-                        hintText: "Preço",
+                        controller: enderecoController,
+                        hintText: "Endereço",
+                      ),
+                     
+                      TextFormVendas(
                         teclado: TextInputType.number,
-                      ),
-                       TextFormProdutos(
-                        funcao: (String? value) {
+                        funcao: (value) {
                           if (nomeValidator(value)) {
-                            return 'Insira a quantidade';
+                            return 'Insira o cargo';
                           }
                           return null;
                         },
-                        controller: quantidadeController,
-                        hintText: "Quantidade",
-                        teclado: TextInputType.name,
+                        controller: cargoController,
+                        hintText: "Cargo",
                       ),
 
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
+                             _UseCasesFuncionario.editarFuncionario(nome:nameController.text, telefone:telefoneController.text, endereco:enderecoController.text,cargo:int.parse(cargoController.text),id:widget.funcionario.id);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Criando novo Produto'),
+                                content: Text('Criando novo Funcionário...'),
                               ),
                             );
                             print(nameController.text);

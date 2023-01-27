@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:teste/modules/vendas/presenter/form_vendas.dart';
 import 'package:teste/utils/compartilhados/botoes_drawer.dart';
@@ -43,6 +44,12 @@ class _VendasTelaState extends State<VendasTela> {
                 _chips(),
                 const Divider(
                   thickness: 2,
+                ),
+                SizedBox(
+                  width: 340,
+                  height: 320,
+                  child: Lottie.network(
+                  "https://assets7.lottiefiles.com/packages/lf20_rIg0v53Pan.json"),
                 ),
               ],
             ))

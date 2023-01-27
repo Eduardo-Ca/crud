@@ -1,7 +1,17 @@
-
+import 'package:teste/modules/funcionario/data/models/funcionario_model.dart';
 import 'package:teste/modules/produto/data/models/produto_model.dart';
 
+abstract class IFuncionarioDatasource {
+  Future<List<FuncionarioModel>> obterTodosFuncionarios();
+  Future<dynamic> criarFuncionario(
+      {String? nome, String? telefone, String? endereco, int? cargo});
 
-abstract class IProdutoDatasource {
-  Future<List<ProdutoModel>> obterTodosProdutos();
+  Future<dynamic> editarFuncionario(
+      {String? nome,
+      String? telefone,
+      String? endereco,
+      int? cargo,
+      int? id});
+
+  Future<dynamic> deletarFuncionario({required int id});
 }

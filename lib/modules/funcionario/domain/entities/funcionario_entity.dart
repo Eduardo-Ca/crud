@@ -7,10 +7,10 @@ class Funcionario extends Equatable {
   String nome;
   String telefone;
   String endereco;
-  int cargo;
+  String cargo;
 
   Funcionario(
-      {this.id = 1, this.nome = "", this.telefone = "", this.endereco = "",this.cargo = 0});
+      {this.id = 1, this.nome = "", this.telefone = "", this.endereco = "",this.cargo = ""});
 
   @override
   List<Object?> get props => [id, nome, telefone, endereco,cargo];

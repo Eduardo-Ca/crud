@@ -14,4 +14,24 @@ class UseCasesFuncionario extends IUsecasesFuncionario {
 
     return result;
   }
+
+  @override
+  Future<dynamic> criarFuncionario({ nome,  telefone,endereco,cargo}) async{
+   
+    final resultado = await repositoryRemoto.criarFuncionario(nome,telefone,endereco,cargo);
+    return resultado;
+  }
+
+   @override
+  Future<dynamic> editarFuncionario({ nome,  telefone,endereco,cargo,id}) async{
+   
+    final resultado = await repositoryRemoto.editarFuncionario(nome,telefone,endereco,cargo,id);
+    return resultado;
+  }
+  
+  @override
+  Future deletarFuncionario({required int id}) async{
+   final resultado = await repositoryRemoto.deletarFuncionario(id: id);
+    return resultado;
+  }
 }

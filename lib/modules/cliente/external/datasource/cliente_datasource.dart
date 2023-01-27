@@ -21,18 +21,41 @@ class ClienteDatasource implements IClienteDatasource {
   }
 
   @override
-  Future<dynamic> criarCliente(nome, telefone, endereco, id) async {
+  Future<dynamic> criarCliente(nome, telefone, endereco) async {
     dynamic retorno = await _request.fazRequestNovo(
         method: Request.POST,
         endpoint: Endpoints.SALVAR_CLIENTE,
         data: {
-          //"id":  id,
+          
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,
         },
         dataParameters: {
-          //"id": id,
+         
+          "nome": nome,
+          "telefone": telefone,
+          "endereco": endereco,
+        },
+        sincronizando: true);
+    print(retorno);
+
+    return retorno;
+  }
+
+  @override
+  Future<dynamic> editarCliente(nome, telefone, endereco, id) async {
+    dynamic retorno = await _request.fazRequestNovo(
+        method: Request.POST,
+        endpoint: Endpoints.SALVAR_CLIENTE,
+        data: {
+          "id":  id,
+          "nome": nome,
+          "telefone": telefone,
+          "endereco": endereco,
+        },
+        dataParameters: {
+          "id": id,
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,

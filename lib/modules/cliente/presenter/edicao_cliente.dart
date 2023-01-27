@@ -96,7 +96,7 @@ class _EdicaoClienteState extends State<EdicaoCliente> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            _UseCasesCliente.criarCliente(nome: nameController.text, telefone: telefoneController.text, endereco: enderecoController.text,id: widget.cliente.id);
+                            _UseCasesCliente.editarCliente(nome: nameController.text, telefone: telefoneController.text, endereco: enderecoController.text,id: widget.cliente.id);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Editando Cliente...'),

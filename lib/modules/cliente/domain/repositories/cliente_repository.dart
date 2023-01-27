@@ -7,6 +7,12 @@ abstract class IClienteRepository {
        String? nome,
        String? telefone,
        String? endereco,
+       );
+
+  Future<dynamic> editarCliente(
+       String? nome,
+       String? telefone,
+       String? endereco,
        int? id);
 
   Future<dynamic> deletarCliente({required int id});

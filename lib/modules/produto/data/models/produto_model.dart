@@ -30,7 +30,7 @@ class ProdutoModel extends Produto {
     return ProdutoModel(
       id: map['id'] as int,
       nome: map['nome'] as String,
-      descricao: map['telefone'] as String,
+      descricao: map['descricao'] as String,
       quantidadeEstoque: map['quantidadeEstoque'] as int,
       precoUnitario: map['precoUnitario'] as double,
     );
