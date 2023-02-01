@@ -9,9 +9,16 @@ RequestUtil _request = RequestUtil();
 
 class ClienteDatasource implements IClienteDatasource {
   @override
-  Future<List<ClienteModel>> obterTodosClientes() async {
+  Future<List<ClienteModel>> obterTodosClientes(nome) async {
     dynamic retorno = await _request.fazRequestNovo(
-        method: Request.GET, endpoint: Endpoints.BUSCAR_CLIENTES, data: null);
+        method: Request.GET, endpoint: Endpoints.BUSCAR_CLIENTES, 
+        data: {
+          "nome": nome,
+        },
+        dataParameters: {
+          "nome": nome,
+          
+        },);
 
     List<ClienteModel> lista = [];
 
@@ -21,21 +28,21 @@ class ClienteDatasource implements IClienteDatasource {
   }
 
   @override
-  Future<dynamic> criarCliente(nome, telefone, endereco) async {
+  Future<dynamic> criarCliente(nome, telefone, endereco, cpf) async {
     dynamic retorno = await _request.fazRequestNovo(
         method: Request.POST,
         endpoint: Endpoints.SALVAR_CLIENTE,
         data: {
-          
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,
+          "cpf": cpf,
         },
         dataParameters: {
-         
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,
+          "cpf": cpf,
         },
         sincronizando: true);
     print(retorno);
@@ -44,21 +51,23 @@ class ClienteDatasource implements IClienteDatasource {
   }
 
   @override
-  Future<dynamic> editarCliente(nome, telefone, endereco, id) async {
+  Future<dynamic> editarCliente(nome, telefone, endereco, cpf, id) async {
     dynamic retorno = await _request.fazRequestNovo(
         method: Request.POST,
         endpoint: Endpoints.SALVAR_CLIENTE,
         data: {
-          "id":  id,
+          "id": id,
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,
+          "cpf": cpf,
         },
         dataParameters: {
           "id": id,
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,
+          "cpf": cpf,
         },
         sincronizando: true);
     print(retorno);

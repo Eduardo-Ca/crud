@@ -8,32 +8,29 @@ class UseCasesCliente extends IUsecasesCliente {
   UseCasesCliente(this.repositoryRemoto);
 
   @override
-  Future<List<ClienteModel>> obterTodosClientes() async {
-    final result = await repositoryRemoto.obterTodosClientes();
+  Future<List<ClienteModel>> obterTodosClientes({nome}) async {
+    final result = await repositoryRemoto.obterTodosClientes(nome: nome);
 
     return result;
   }
-  
+
   @override
-  Future<dynamic> criarCliente({ nome,  telefone,   endereco}) async{
-   
-    final resultado = await repositoryRemoto.criarCliente(nome,telefone,endereco);
+  Future<dynamic> criarCliente({nome, telefone, endereco, cpf}) async {
+    final resultado =
+        await repositoryRemoto.criarCliente(nome, telefone, endereco, cpf);
     return resultado;
   }
 
-  
   @override
-  Future<dynamic> editarCliente({ nome,  telefone,   endereco,id}) async{
-   
-    final resultado = await repositoryRemoto.editarCliente(nome,telefone,endereco,id);
-    return resultado;
-  }
-  
-  @override
-  Future deletarCliente({required int id}) async{
-   final resultado = await repositoryRemoto.deletarCliente(id: id);
+  Future<dynamic> editarCliente({nome, telefone, endereco,cpf, id}) async {
+    final resultado =
+        await repositoryRemoto.editarCliente(nome, telefone,endereco, cpf,id);
     return resultado;
   }
 
- 
+  @override
+  Future deletarCliente({required int id}) async {
+    final resultado = await repositoryRemoto.deletarCliente(id: id);
+    return resultado;
+  }
 }

@@ -11,9 +11,16 @@ RequestUtil _request = RequestUtil();
 
 class ProdutoDatasource implements IProdutoDatasource {
   @override
-  Future<List<ProdutoModel>> obterTodosProdutos() async {
+  Future<List<ProdutoModel>> obterTodosProdutos(String? nome) async {
     dynamic retorno = await _request.fazRequestNovo(
-        method: Request.GET, endpoint: Endpoints.BUSCAR_PRODUTOS, data: null);
+        method: Request.GET, endpoint: Endpoints.BUSCAR_PRODUTOS,   data: {
+          "nome": nome,
+     
+        },
+        dataParameters: {
+          "nome": nome,
+        
+        },);
 
     List<ProdutoModel> lista = [];
 

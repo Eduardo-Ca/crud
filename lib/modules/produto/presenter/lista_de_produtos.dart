@@ -21,6 +21,7 @@ class ListaProdutosTela extends StatefulWidget {
 }
 
 class _ListaProdutosTelaState extends State<ListaProdutosTela> {
+    String valorPesquisa = "";
   Timer? _debounce;
 
   late UseCasesProduto _UseCasesProduto;
@@ -82,10 +83,7 @@ class _ListaProdutosTelaState extends State<ListaProdutosTela> {
     _debounce = Timer(const Duration(milliseconds: 500), () {
       setState(
         () {
-          // Endpoints.PRODUTO = 'api/produto/$value';
-          // if (value == "") {
-          //   Endpoints.PRODUTO = 'api/produto/obterProdutos/';
-          // }
+           valorPesquisa = value;
         },
       );
     });
@@ -119,7 +117,7 @@ class _ListaProdutosTelaState extends State<ListaProdutosTela> {
     return SingleChildScrollView(
       child: FutureBuilder<List<ProdutoModel>>(
         future: Future.delayed(const Duration(milliseconds: 400))
-            .then((value) => _UseCasesProduto.obterTodosProdutos()),
+            .then((value) => _UseCasesProduto.obterTodosProdutos(valorPesquisa)),
         initialData: const [],
         builder: ((context, snapshot) {
           switch (snapshot.connectionState) {

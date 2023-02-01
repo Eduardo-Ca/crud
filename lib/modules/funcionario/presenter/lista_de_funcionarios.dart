@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:teste/modules/funcionario/data/models/cargo_model.dart';
 import 'package:teste/modules/funcionario/data/models/funcionario_model.dart';
 import 'package:teste/modules/funcionario/domain/entities/funcionario_entity.dart';
 import 'package:teste/modules/funcionario/domain/usecases/funcionario_usecases.dart';
@@ -21,7 +22,9 @@ class ListaFuncionariosTela extends StatefulWidget {
 }
 
 class _ListaFuncionariosTelaState extends State<ListaFuncionariosTela> {
+  String valorPesquisa = "";
   Timer? _debounce;
+   List<CargoModel> dropCargo = [];
 
   late UseCasesFuncionario _UseCasesFuncionario;
 
@@ -30,12 +33,24 @@ class _ListaFuncionariosTelaState extends State<ListaFuncionariosTela> {
     super.initState();
 
     _UseCasesFuncionario = GetIt.I.get<UseCasesFuncionario>();
+    dropLists();
   }
 
   @override
   void dispose() {
     super.dispose();
     _debounce?.cancel();
+  }
+
+  dropListCargo() async {
+    final List<CargoModel> dropFuncionarios =
+        await _UseCasesFuncionario.obterTodosCargos();
+    return dropFuncionarios;
+  }
+
+  dropLists() async {
+  
+    dropCargo = await dropListCargo();
   }
 
   @override
@@ -49,7 +64,7 @@ class _ListaFuncionariosTelaState extends State<ListaFuncionariosTela> {
          final criarFuncionario = await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (contextNew) => const FormFuncionarios()));
+                  builder: (contextNew) =>  FormFuncionarios(dropCargo: dropCargo,)));
           setState(() {
             
           });
@@ -85,10 +100,7 @@ class _ListaFuncionariosTelaState extends State<ListaFuncionariosTela> {
     _debounce = Timer(const Duration(milliseconds: 500), () {
       setState(
         () {
-          // Endpoints.PRODUTO = 'api/produto/$value';
-          // if (value == "") {
-          //   Endpoints.PRODUTO = 'api/produto/obterProdutos/';
-          // }
+           valorPesquisa = value;
         },
       );
     });
@@ -122,7 +134,7 @@ class _ListaFuncionariosTelaState extends State<ListaFuncionariosTela> {
     return SingleChildScrollView(
       child: FutureBuilder<List<FuncionarioModel>>(
         future: Future.delayed(const Duration(milliseconds: 400))
-            .then((value) => _UseCasesFuncionario.obterTodosFuncionarios()),
+            .then((value) => _UseCasesFuncionario.obterTodosFuncionarios( valorPesquisa)),
         initialData: const [],
         builder: ((context, snapshot) {
           switch (snapshot.connectionState) {
@@ -185,7 +197,7 @@ class _ListaFuncionariosTelaState extends State<ListaFuncionariosTela> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (contextNew) => EdicaoFuncionarios(
-                                          funcionario: funcionarios[index],
+                                          funcionario: funcionarios[index],dropCargo: dropCargo
                                         )));
                             setState(() {});
                           }),

@@ -9,8 +9,8 @@ class ClienteRepository implements IClienteRepository {
       this.dataSource); //this.datasourceLocal, //this.datasourceRemoto,
 
   @override
-  Future<List<ClienteModel>> obterTodosClientes() async {
-    return await dataSource.obterTodosClientes();
+  Future<List<ClienteModel>> obterTodosClientes({String? nome}) async {
+    return await dataSource.obterTodosClientes(nome);
   }
 
   @override
@@ -18,8 +18,9 @@ class ClienteRepository implements IClienteRepository {
        String? nome,
        String? telefone,
        String? endereco,
+       String? cpf
        ) async {
-    return await dataSource.criarCliente(nome, telefone, endereco);
+    return await dataSource.criarCliente(nome, telefone, endereco,cpf);
   }
 
   
@@ -28,8 +29,9 @@ class ClienteRepository implements IClienteRepository {
        String? nome,
        String? telefone,
        String? endereco,
+       String? cpf,
        int? id) async {
-    return await dataSource.editarCliente(nome, telefone, endereco,id);
+    return await dataSource.editarCliente(nome, telefone, endereco,cpf,id);
   }
 
   @override

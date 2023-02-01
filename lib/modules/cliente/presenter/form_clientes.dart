@@ -14,6 +14,7 @@ class _FormCientesState extends State<FormCientes> {
   TextEditingController nameController = TextEditingController();
   TextEditingController telefoneController = TextEditingController();
   TextEditingController enderecoController = TextEditingController();
+   TextEditingController cpfController = TextEditingController();
 
   late UseCasesCliente _UseCasesCliente;
 
@@ -90,10 +91,22 @@ class _FormCientesState extends State<FormCientes> {
                         controller: enderecoController,
                         hintText: "Endereço",
                       ),
+
+                       TextFormClientes(
+                        teclado: TextInputType.number,
+                        funcao: (String? value) {
+                          if (nomeValidator(value)) {
+                            return 'Insira o CPF';
+                          }
+                          return null;
+                        },
+                        controller: cpfController,
+                        hintText: "CPF",
+                      ),
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            _UseCasesCliente.criarCliente(nome:nameController.text, telefone:telefoneController.text, endereco:enderecoController.text );
+                            _UseCasesCliente.criarCliente(nome:nameController.text, telefone:telefoneController.text, endereco:enderecoController.text,cpf: cpfController.text);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Criando novo Cliente...'),

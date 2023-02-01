@@ -5,22 +5,22 @@ import 'package:equatable/equatable.dart';
 
 class Vendas extends Equatable {
   int id;
-  int funcionarioId;
-  int clienteId;
-  int quantidadeItens;
+  String clientePedido;
+  String funcionarioPedido;
+  String dataVenda;
   double valorCompra;
   Vendas({
     required this.id,
-    required this.funcionarioId,
-    required this.clienteId,
-    required this.quantidadeItens,
+    required this.clientePedido,
+    required this.funcionarioPedido,
+    required this.dataVenda,
     required this.valorCompra,
   });
 
   
 
   @override
-  List<Object?> get props => [id, funcionarioId, clienteId, quantidadeItens,valorCompra];
+  List<Object?> get props => [id, clientePedido, funcionarioPedido, dataVenda,valorCompra];
 
  
 }

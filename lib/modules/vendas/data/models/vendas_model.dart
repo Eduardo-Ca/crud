@@ -3,38 +3,40 @@ import 'dart:convert';
 
 import 'package:teste/modules/vendas/domain/entities/vendas_entity.dart';
 
+
+
 class VendasModel extends Vendas {
   VendasModel({
     int? id,
-    int? funcionarioId,
-    int? clienteId,
-    int? quantidadeItens,
+      String? clientePedido,
+  String? funcionarioPedido,
+  String ?dataVenda,
     double? valorCompra,
   }) : super(
             id: id ?? 0,
-            funcionarioId: funcionarioId ?? 0,
-            clienteId: clienteId ?? 0,
-            quantidadeItens: quantidadeItens ?? 0,
+            clientePedido: clientePedido ?? "",
+            funcionarioPedido: funcionarioPedido ?? "",
+            dataVenda: dataVenda ?? "",
              valorCompra: valorCompra ?? 0,
             );
 
              Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
-      'funcionarioId': funcionarioId,
-      'clienteId': clienteId,
-      'quantidadeItens': quantidadeItens,
-      'ValorCompra': valorCompra,
+      'clientePedido': clientePedido,
+      'funcionarioPedido': funcionarioPedido,
+      'dataVenda': dataVenda,
+      'valorCompra': valorCompra,
     };
   }
 
   factory VendasModel.fromJson(Map<String, dynamic> map) {
     return VendasModel(
-      id: map['id'] as int,
-      funcionarioId: map['funcionarioId'] as int,
-      clienteId: map['clienteId'] as int,
-      quantidadeItens: map['quantidadeItens'] as int,
-      valorCompra: map['ValorCompra'] as double,
+      id: map['id'],
+      clientePedido: map['clientePedido'] as String,
+      funcionarioPedido: map['funcionarioPedido'] as String,
+      dataVenda: map['dataVenda'] as String,
+      valorCompra: map['valorCompra'] ,
     );
   }
 

@@ -7,7 +7,7 @@ import 'package:teste/modules/cliente/presenter/components/text_form_clientes.da
 
 class EdicaoCliente extends StatefulWidget {
   ClienteModel cliente;
-   EdicaoCliente({super.key,required this.cliente});
+  EdicaoCliente({super.key, required this.cliente});
 
   @override
   State<EdicaoCliente> createState() => _EdicaoClienteState();
@@ -17,6 +17,7 @@ class _EdicaoClienteState extends State<EdicaoCliente> {
   TextEditingController nameController = TextEditingController();
   TextEditingController telefoneController = TextEditingController();
   TextEditingController enderecoController = TextEditingController();
+    TextEditingController cpfController = TextEditingController();
 
   late UseCasesCliente _UseCasesCliente;
 
@@ -42,7 +43,7 @@ class _EdicaoClienteState extends State<EdicaoCliente> {
       key: _formkey,
       child: Scaffold(
         appBar: AppBar(
-          title:  Text("Edição:${widget.cliente.nome}"),
+          title: Text("Edição:${widget.cliente.nome}"),
         ),
         body: Center(
           child: SingleChildScrollView(
@@ -93,10 +94,26 @@ class _EdicaoClienteState extends State<EdicaoCliente> {
                         controller: enderecoController,
                         hintText: "Endereço",
                       ),
+                        TextFormClientes(
+                        teclado: TextInputType.number,
+                        funcao: (String? value) {
+                          if (nomeValidator(value)) {
+                            return 'Insira o CPF';
+                          }
+                          return null;
+                        },
+                        controller: cpfController,
+                        hintText: "CPF",
+                      ),
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            _UseCasesCliente.editarCliente(nome: nameController.text, telefone: telefoneController.text, endereco: enderecoController.text,id: widget.cliente.id);
+                            _UseCasesCliente.editarCliente(
+                                nome: nameController.text,
+                                telefone: telefoneController.text,
+                                endereco: enderecoController.text,
+                                cpf: cpfController.text,
+                                id: widget.cliente.id);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Editando Cliente...'),

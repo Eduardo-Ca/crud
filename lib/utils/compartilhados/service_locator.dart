@@ -11,6 +11,9 @@ import 'package:teste/modules/funcionario/external/datasource/funcionario_dataso
 import 'package:teste/modules/produto/data/repositories/produto_repository.dart';
 import 'package:teste/modules/produto/domain/usecases/produto_usecases.dart';
 import 'package:teste/modules/produto/external/datasource/produto_datasource.dart';
+import 'package:teste/modules/vendas/data/repositories/vendas_repository.dart';
+import 'package:teste/modules/vendas/domain/usecases/vendas_usecases.dart';
+import 'package:teste/modules/vendas/external/datasource/vendas_datasource.dart';
 
 GetIt getIt = GetIt.I;
 
@@ -53,4 +56,14 @@ void setupLocator() {
   getIt.registerLazySingleton<UseCasesProduto>(
       () => UseCasesProduto(GetIt.I.get<ProdutoRepository>()));
   //=========================================== PRODUTOS =====================================================================
+
+  //=========================================== VENDAS =========================================================================
+     getIt.registerLazySingleton<VendasDatasource>(
+      () => VendasDatasource());
+  getIt.registerLazySingleton<VendasRepository>(
+      () => VendasRepository(GetIt.I.get<VendasDatasource>()));
+
+  getIt.registerLazySingleton<UseCasesVendas>(
+      () => UseCasesVendas(GetIt.I.get<VendasRepository>()));
+  //=========================================== VENDAS =========================================================================
 }

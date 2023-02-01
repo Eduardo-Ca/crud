@@ -8,8 +8,8 @@ class UseCasesProduto extends IUsecasesProduto {
   UseCasesProduto(this.repositoryRemoto);
 
   @override
-  Future<List<ProdutoModel>> obterTodosProdutos() async {
-    final result = await repositoryRemoto.obterTodosProdutos();
+  Future<List<ProdutoModel>> obterTodosProdutos(nome) async {
+    final result = await repositoryRemoto.obterTodosProdutos(nome);
 
     return result;
   }

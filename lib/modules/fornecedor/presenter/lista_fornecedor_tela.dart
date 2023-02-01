@@ -23,6 +23,7 @@ class ListaFornecedoresTela extends StatefulWidget {
 }
 
 class _ListaFornecedoresTelaState extends State<ListaFornecedoresTela> {
+  String valorPesquisa = "";
   late UseCasesFornecedor _UseCasesFornecedor;
   Timer? _debounce;
 
@@ -107,10 +108,7 @@ class _ListaFornecedoresTelaState extends State<ListaFornecedoresTela> {
     _debounce = Timer(const Duration(milliseconds: 500), () {
       setState(
         () {
-          // Endpoints.PRODUTO = 'api/produto/$value';
-          // if (value == "") {
-          //   Endpoints.PRODUTO = 'api/produto/obterProdutos/';
-          // }
+         valorPesquisa = value;
         },
       );
     });
@@ -119,7 +117,7 @@ class _ListaFornecedoresTelaState extends State<ListaFornecedoresTela> {
   _listaDeFornecedores() {
     return FutureBuilder<List<FornecedorModel>>(
       future: Future.delayed(const Duration(milliseconds: 400))
-          .then((value) => _UseCasesFornecedor.obterTodosFornecedores()),
+          .then((value) => _UseCasesFornecedor.obterTodosFornecedores(valorPesquisa)),
       initialData: const [],
       builder: ((context, snapshot) {
         switch (snapshot.connectionState) {

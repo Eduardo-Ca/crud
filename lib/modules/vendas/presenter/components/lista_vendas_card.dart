@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'package:teste/modules/fornecedor/data/models/fornecedor_model.dart';
-import 'package:teste/modules/funcionario/data/models/funcionario_model.dart';
-import 'package:teste/modules/produto/data/models/produto_model.dart';
+import 'package:teste/modules/vendas/data/models/vendas_model.dart';
 
-class ProdutoCard extends StatefulWidget {
-  ProdutoModel produto;
-  ProdutoCard({super.key, required this.produto});
+class VendaCard extends StatefulWidget {
+  VendasModel venda;
+  VendaCard({super.key, required this.venda});
 
   @override
-  State<ProdutoCard> createState() => _ProdutoCardState();
+  State<VendaCard> createState() => _VendaCardState();
 }
 
-class _ProdutoCardState extends State<ProdutoCard> {
+class _VendaCardState extends State<VendaCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,7 +39,7 @@ class _ProdutoCardState extends State<ProdutoCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     Icon(
-                      MdiIcons.archive,
+                      MdiIcons.cash,
                       size: 28,
                      
                     ),
@@ -54,46 +52,29 @@ class _ProdutoCardState extends State<ProdutoCard> {
             padding: const EdgeInsets.all(12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              
               children: [
-                Center(
-                  child: SizedBox(
-                    width: 200,
-                    child: Text(
-                      widget.produto.nome,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                Text(
+                  widget.venda.clientePedido.toString(),
+                  style: const TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Center(
-                  child: Text(
-                    "Quantidade: ${widget.produto.quantidadeEstoque}",
-                    style: const TextStyle(
-                      fontSize: 19,
-                      color: Colors.grey
-                      
-                    ),
+
+                 Text(
+                  "Valor da compra: ${widget.venda.valorCompra}",
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey
                   ),
                 ),
-                Center(
-                  child: Text(
-                    "Preço: ${widget.produto.precoUnitario}",
-                    style: const TextStyle(
-                      fontSize: 19,
-                      color: Colors.grey
-                      
-                    ),
-                  ),
-                ),
+                
               ],
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(left:2.0),
+            padding: EdgeInsets.only(right:15.0),
             child: Icon(
               Icons.chevron_right,
               size: 34,

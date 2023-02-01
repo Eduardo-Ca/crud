@@ -7,11 +7,17 @@ RequestUtil _request = RequestUtil();
 
 class FornecedorDatasource implements IFornecedorDatasource {
   @override
-  Future<List<FornecedorModel>> obterTodosFornecedores() async {
+  Future<List<FornecedorModel>> obterTodosFornecedores(String? nome) async {
     dynamic retorno = await _request.fazRequestNovo(
-        method: Request.GET,
-        endpoint: Endpoints.BUSCAR_FORNECEDORES,
-        data: null);
+      method: Request.GET,
+      endpoint: Endpoints.BUSCAR_FORNECEDORES,
+      data: {
+        "nome": nome,
+      },
+      dataParameters: {
+        "nome": nome,
+      },
+    );
 
     List<FornecedorModel> lista = [];
 
@@ -21,7 +27,7 @@ class FornecedorDatasource implements IFornecedorDatasource {
   }
 
   @override
-  Future<dynamic> criarFornecedor(nome, telefone, endereco) async {
+  Future<dynamic> criarFornecedor(nome, telefone, endereco, cnpj) async {
     dynamic retorno = await _request.fazRequestNovo(
         method: Request.POST,
         endpoint: Endpoints.SALVAR_FORNECEDOR,
@@ -29,11 +35,13 @@ class FornecedorDatasource implements IFornecedorDatasource {
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,
+          "cnpj": cnpj,
         },
         dataParameters: {
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,
+          "cnpj": cnpj,
         },
         sincronizando: true);
     print(retorno);
@@ -42,7 +50,7 @@ class FornecedorDatasource implements IFornecedorDatasource {
   }
 
   @override
-  Future<dynamic> editarFornecedor(nome, telefone, endereco, id) async {
+  Future<dynamic> editarFornecedor(nome, telefone, endereco, cnpj, id) async {
     dynamic retorno = await _request.fazRequestNovo(
         method: Request.POST,
         endpoint: Endpoints.SALVAR_FORNECEDOR,
@@ -51,12 +59,14 @@ class FornecedorDatasource implements IFornecedorDatasource {
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,
+          "cnpj": cnpj,
         },
         dataParameters: {
           "id": id,
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,
+          "cnpj": cnpj,
         },
         sincronizando: true);
     print(retorno);

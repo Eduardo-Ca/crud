@@ -14,8 +14,9 @@ class _FormFornecedoresState extends State<FormFornecedores> {
   TextEditingController nameController = TextEditingController();
   TextEditingController telefoneController = TextEditingController();
   TextEditingController enderecoController = TextEditingController();
+  TextEditingController cnpjController = TextEditingController();
 
-   late UseCasesFornecedor _UseCasesFornecedor;
+  late UseCasesFornecedor _UseCasesFornecedor;
 
   @override
   void initState() {
@@ -23,7 +24,6 @@ class _FormFornecedoresState extends State<FormFornecedores> {
 
     _UseCasesFornecedor = GetIt.I.get<UseCasesFornecedor>();
   }
-
 
   final _formkey = GlobalKey<FormState>();
 
@@ -57,7 +57,7 @@ class _FormFornecedoresState extends State<FormFornecedores> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-          //! ============== TEXT FORMS ===========
+                      //! ============== TEXT FORMS ===========
                       TextFormFornecedores(
                         teclado: TextInputType.name,
                         funcao: (String? value) {
@@ -91,11 +91,26 @@ class _FormFornecedoresState extends State<FormFornecedores> {
                         controller: enderecoController,
                         hintText: "Endereço",
                       ),
-                     
+                      TextFormFornecedores(
+                        teclado: TextInputType.name,
+                        funcao: (value) {
+                          if (nomeValidator(value)) {
+                            return 'Insira o CNPJ';
+                          }
+                          return null;
+                        },
+                        controller: cnpjController,
+                        hintText: "CNPJ",
+                      ),
+
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            _UseCasesFornecedor.criarFornecedor(nome:nameController.text, telefone:telefoneController.text, endereco:enderecoController.text );
+                            _UseCasesFornecedor.criarFornecedor(
+                                nome: nameController.text,
+                                telefone: telefoneController.text,
+                                endereco: enderecoController.text,
+                                cnpj: cnpjController.text);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Criando novo Fornecedor...'),

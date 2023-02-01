@@ -1,20 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get_it/get_it.dart';
+import 'package:lottie/lottie.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:teste/modules/cliente/data/models/cliente_model.dart';
+import 'package:teste/modules/cliente/domain/usecases/cliente_usecases.dart';
+import 'package:teste/modules/funcionario/data/models/funcionario_model.dart';
+import 'package:teste/modules/funcionario/domain/usecases/funcionario_usecases.dart';
+import 'package:teste/modules/produto/data/models/produto_model.dart';
+import 'package:teste/modules/produto/domain/entities/produto_entity.dart';
+import 'package:teste/modules/produto/domain/usecases/produto_usecases.dart';
+import 'package:teste/modules/produto/presenter/components/lista_produtos_card.dart';
 
 class FormVendas extends StatefulWidget {
-  const FormVendas({super.key});
+  List<ClienteModel> dropClientes;
+  List<FuncionarioModel> dropFuncionarios;
+
+  FormVendas(
+      {super.key, required this.dropClientes, required this.dropFuncionarios});
 
   @override
   State<FormVendas> createState() => _FormVendasState();
 }
 
 class _FormVendasState extends State<FormVendas> {
-  final dropValueClientes = ValueNotifier('');
-  final dropValueFuncionarios = ValueNotifier('');
-  final dropClientes = ['Eduardo', 'Marcos'];
-  final dropFuncionarios = ['Gustavo', 'Julio'];
+  String valorPesquisa = "";
+  String? dropValueClientes;
+  String? dropValueFuncionarios;
+  late UseCasesProduto _UseCasesProduto;
 
   final _formkey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _UseCasesProduto = GetIt.I.get<UseCasesProduto>();
+  }
 
   bool nomeValidator(String? value) {
     if (value != null && value.isEmpty) {
@@ -66,63 +88,51 @@ class _FormVendasState extends State<FormVendas> {
 
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: ValueListenableBuilder(
-                          valueListenable: dropValueClientes,
-                          builder: (BuildContext context, String value, _) {
-                            return SizedBox(
-                              width: 350,
-                              child: DropdownButtonFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    hintText: "Escolha o cliente",
-                                    fillColor: Colors.grey.withOpacity(0.2),
-                                    filled: true,
-                                  ),
-                                  isExpanded: true,
-                                  icon: const Icon(Icons.people),
-                                  value: (value.isEmpty) ? null : value,
-                                  items: dropClientes
-                                      .map((opcao) => DropdownMenuItem(
-                                          value: opcao, child: Text(opcao)))
-                                      .toList(),
-                                  onChanged: (escolha) => dropValueClientes
-                                      .value = escolha.toString()),
-                            );
-                          },
+                        child: ButtonTheme(
+                          alignedDropdown: true,
+                          child: DropdownButtonFormField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                hintText: "Escolha o cliente",
+                                fillColor: Colors.grey.withOpacity(0.2),
+                                filled: true,
+                              ),
+                              isExpanded: true,
+                              icon: const Icon(Icons.people),
+                              value: dropValueClientes,
+                              items: widget.dropClientes
+                                  .map((opcao) => DropdownMenuItem(
+                                      value: opcao.id, child: Text(opcao.nome)))
+                                  .toList(),
+                              onChanged: (escolha) =>
+                                  dropValueClientes = escolha.toString()),
                         ),
                       ),
 
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: ValueListenableBuilder(
-                          valueListenable: dropValueFuncionarios,
-                          builder: (BuildContext context, String value, _) {
-                            return SizedBox(
-                              width: 350,
-                              child: DropdownButtonFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    hintText: "Escolha o funcionário",
-                                    fillColor: Colors.grey.withOpacity(0.2),
-                                    filled: true,
-                                  ),
-                                  isExpanded: true,
-                                  icon: const Icon(
-                                    MdiIcons.briefcase,
-                                  ),
-                                  value: (value.isEmpty) ? null : value,
-                                  items: dropFuncionarios
-                                      .map((opcao) => DropdownMenuItem(
-                                          value: opcao, child: Text(opcao)))
-                                      .toList(),
-                                  onChanged: (escolha) => dropValueFuncionarios
-                                      .value = escolha.toString()),
-                            );
-                          },
+                        child: ButtonTheme(
+                          alignedDropdown: true,
+                          child: DropdownButtonFormField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                hintText: "Escolha o funcionário",
+                                fillColor: Colors.grey.withOpacity(0.2),
+                                filled: true,
+                              ),
+                              isExpanded: true,
+                              icon: const Icon(MdiIcons.briefcase),
+                              value: dropValueFuncionarios,
+                              items: widget.dropFuncionarios
+                                  .map((opcao) => DropdownMenuItem(
+                                      value: opcao.id, child: Text(opcao.nome)))
+                                  .toList(),
+                              onChanged: (escolha) =>
+                                  dropValueFuncionarios = escolha.toString()),
                         ),
                       ),
 
@@ -130,7 +140,6 @@ class _FormVendasState extends State<FormVendas> {
                         thickness: 3,
                       ),
 
-                      //! Lista de produtos
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Container(
@@ -140,8 +149,22 @@ class _FormVendasState extends State<FormVendas> {
                               borderRadius: BorderRadius.circular(20),
                               color: Colors.grey.withOpacity(0.2),
                               border: Border.all(color: Colors.red)),
-                          child: Column(
-                            children: [],
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.all(13.0),
+                                  child: Text(
+                                    "Pedidos:",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                _listaDeProdutos(),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -175,6 +198,83 @@ class _FormVendasState extends State<FormVendas> {
             style: TextStyle(fontSize: 17, color: Colors.white),
           )),
         ),
+      ),
+    );
+  }
+
+  _listaDeProdutos() {
+    return SingleChildScrollView(
+      child: FutureBuilder<List<ProdutoModel>>(
+        future: Future.delayed(const Duration(milliseconds: 400)).then(
+            (value) => _UseCasesProduto.obterTodosProdutos(valorPesquisa)),
+        initialData: const [],
+        builder: ((context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return const Center(child: Text("Erro"));
+
+            case ConnectionState.waiting:
+              return const Center(
+                child: SpinKitCircle(
+                  color: Colors.red,
+                  size: 50.0,
+                ),
+              );
+
+            case ConnectionState.active:
+              break;
+            case ConnectionState.done:
+              final List<ProdutoModel>? produtos = snapshot.data;
+              if (produtos == null || produtos.isEmpty) {
+                return Center(
+                    child: Column(
+                  children: [
+                    SizedBox(
+                      width: 340,
+                      height: 320,
+                      child: Lottie.network(
+                          "https://assets7.lottiefiles.com/packages/lf20_rIg0v53Pan.json"),
+                    ),
+                    const Text(
+                      "Sem informação",
+                      style: TextStyle(fontSize: 26, color: Colors.grey),
+                    ),
+                  ],
+                ));
+              } else {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: produtos.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      //!=== Card ===
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(produtos[index].nome),
+                              Text("Preço: ${produtos[index].precoUnitario}",
+                                  style: const TextStyle(
+                                      color: Colors.grey, fontSize: 16)),
+                            ],
+                          ),
+                          const Icon(Icons.add_box)
+                        ],
+                      ),
+                      onTap: () {},
+                    );
+                  },
+                );
+              }
+          }
+          return const Center(
+              child: Text(
+            "Sem informação",
+            style: TextStyle(fontSize: 33, color: Colors.black),
+          ));
+        }),
       ),
     );
   }

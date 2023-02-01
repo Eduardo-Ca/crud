@@ -1,4 +1,5 @@
 import 'package:teste/modules/funcionario/data/datasource/funcionario_datasource_abst.dart';
+import 'package:teste/modules/funcionario/data/models/cargo_model.dart';
 import 'package:teste/modules/funcionario/data/models/funcionario_model.dart';
 import 'package:teste/modules/produto/data/datasource/produto_datasource_abst.dart';
 
@@ -9,11 +10,17 @@ RequestUtil _request = RequestUtil();
 
 class FuncionarioDatasource implements IFuncionarioDatasource {
   @override
-  Future<List<FuncionarioModel>> obterTodosFuncionarios() async {
+  Future<List<FuncionarioModel>> obterTodosFuncionarios(String? nome) async {
     dynamic retorno = await _request.fazRequestNovo(
         method: Request.GET,
         endpoint: Endpoints.BUSCAR_FUNCIONARIOS,
-        data: null);
+         data: {
+          "nome": nome,
+        },
+        dataParameters: {
+          "nome": nome,
+        
+        },);
 
     List<FuncionarioModel> lista = [];
 
@@ -22,9 +29,23 @@ class FuncionarioDatasource implements IFuncionarioDatasource {
     return lista;
   }
 
+   @override
+  Future<List<CargoModel>> obterTodosCargos() async {
+    dynamic retorno = await _request.fazRequestNovo(
+        method: Request.GET,
+        endpoint: Endpoints.BUSCAR_CARGOS,
+        data: null);
+
+    List<CargoModel> lista = [];
+
+    retorno.data.forEach((i) => lista.add(CargoModel.fromJson(i)));
+
+    return lista;
+  }
+
   @override
   Future<dynamic> criarFuncionario(
-      {String? nome, String? telefone, String? endereco, int? cargo}) async {
+      {String? nome, String? telefone, String? endereco, int? cargo,String? cpf}) async {
     dynamic retorno = await _request.fazRequestNovo(
         method: Request.POST,
         endpoint: Endpoints.SALVAR_FUNCIONARIO,
@@ -33,12 +54,14 @@ class FuncionarioDatasource implements IFuncionarioDatasource {
           "telefone": telefone,
           "endereco": endereco,
           "cargo": cargo,
+          "cpf":cpf
         },
         dataParameters: {
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,
           "cargo": cargo,
+           "cpf":cpf
         },
         sincronizando: true);
     print(retorno);
@@ -52,6 +75,7 @@ class FuncionarioDatasource implements IFuncionarioDatasource {
       String? telefone,
       String? endereco,
       int? cargo,
+      String? cpf,
       int? id}) async {
     dynamic retorno = await _request.fazRequestNovo(
         method: Request.POST,
@@ -61,6 +85,7 @@ class FuncionarioDatasource implements IFuncionarioDatasource {
           "nome": nome,
           "telefone": telefone,
           "endereco": endereco,
+           "cpf":cpf,
         },
         dataParameters: {
           "id": id,
@@ -68,6 +93,7 @@ class FuncionarioDatasource implements IFuncionarioDatasource {
           "telefone": telefone,
           "endereco": endereco,
           "cargo": cargo,
+           "cpf":cpf,
         },
         sincronizando: true);
     print(retorno);

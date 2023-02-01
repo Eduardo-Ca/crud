@@ -9,23 +9,23 @@ class UseCasesFornecedor extends IUsecasesFornecedor {
   UseCasesFornecedor(this.repositoryRemoto);
 
   @override
-  Future<List<FornecedorModel>> obterTodosFornecedores() async {
-    final result = await repositoryRemoto.obterTodosFornecedores();
+  Future<List<FornecedorModel>> obterTodosFornecedores(nome) async {
+    final result = await repositoryRemoto.obterTodosFornecedores(nome);
 
     return result;
   }
 
   @override
-  Future<dynamic> criarFornecedor({ nome,  telefone,   endereco}) async{
+  Future<dynamic> criarFornecedor({ nome,  telefone,endereco,cnpj}) async{
    
-    final resultado = await repositoryRemoto.criarFornecedor(nome,telefone,endereco);
+    final resultado = await repositoryRemoto.criarFornecedor(nome,telefone,endereco,cnpj);
     return resultado;
   }
 
    @override
-  Future<dynamic> editarFornecedor({ nome,  telefone,   endereco,id}) async{
+  Future<dynamic> editarFornecedor({ nome,  telefone,endereco,cnpj,id}) async{
    
-    final resultado = await repositoryRemoto.editarFornecedor(nome,telefone,endereco,id);
+    final resultado = await repositoryRemoto.editarFornecedor(nome,telefone,endereco,cnpj,id);
     return resultado;
   }
   

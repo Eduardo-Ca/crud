@@ -12,6 +12,7 @@ import 'package:teste/modules/cliente/presenter/components/lista_clientes_card.d
 import 'package:teste/modules/cliente/presenter/edicao_cliente.dart';
 import 'package:teste/modules/cliente/presenter/form_clientes.dart';
 import 'package:teste/utils/compartilhados/botoes_drawer.dart';
+import 'package:teste/utils/constants/request_constante.dart';
 
 class ListaCleintesTela extends StatefulWidget {
   const ListaCleintesTela({super.key});
@@ -21,6 +22,7 @@ class ListaCleintesTela extends StatefulWidget {
 }
 
 class _ListaCleintesTelaState extends State<ListaCleintesTela> {
+  String valorPesquisa = "";
   late UseCasesCliente _UseCasesCliente;
   Timer? _debounce;
 
@@ -103,10 +105,7 @@ class _ListaCleintesTelaState extends State<ListaCleintesTela> {
     _debounce = Timer(const Duration(milliseconds: 500), () {
       setState(
         () {
-          // Endpoints.PRODUTO = 'api/produto/$value';
-          // if (value == "") {
-          //   Endpoints.PRODUTO = 'api/produto/obterProdutos/';
-          // }
+         valorPesquisa = value;
         },
       );
     });
@@ -115,7 +114,7 @@ class _ListaCleintesTelaState extends State<ListaCleintesTela> {
   _listaDecClientes() {
     return FutureBuilder<List<ClienteModel>>(
       future: Future.delayed(const Duration(milliseconds: 400))
-          .then((value) => _UseCasesCliente.obterTodosClientes()),
+          .then((value) => _UseCasesCliente.obterTodosClientes(nome: valorPesquisa)),
       initialData: const [],
       builder: ((context, snapshot) {
         switch (snapshot.connectionState) {

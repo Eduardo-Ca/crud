@@ -6,7 +6,7 @@ import 'package:teste/modules/fornecedor/presenter/components/text_form_forneced
 
 class EdicaoFornecedores extends StatefulWidget {
   FornecedorModel fornecedor;
-  EdicaoFornecedores({super.key,required this.fornecedor});
+  EdicaoFornecedores({super.key, required this.fornecedor});
 
   @override
   State<EdicaoFornecedores> createState() => _EdicaoFornecedoresState();
@@ -16,8 +16,9 @@ class _EdicaoFornecedoresState extends State<EdicaoFornecedores> {
   TextEditingController nameController = TextEditingController();
   TextEditingController telefoneController = TextEditingController();
   TextEditingController enderecoController = TextEditingController();
+  TextEditingController cnpjController = TextEditingController();
 
-   late UseCasesFornecedor _UseCasesFornecedor;
+  late UseCasesFornecedor _UseCasesFornecedor;
 
   @override
   void initState() {
@@ -25,7 +26,6 @@ class _EdicaoFornecedoresState extends State<EdicaoFornecedores> {
 
     _UseCasesFornecedor = GetIt.I.get<UseCasesFornecedor>();
   }
-
 
   final _formkey = GlobalKey<FormState>();
 
@@ -42,7 +42,7 @@ class _EdicaoFornecedoresState extends State<EdicaoFornecedores> {
       key: _formkey,
       child: Scaffold(
         appBar: AppBar(
-          title:  Text("Editando:${widget.fornecedor.nome}"),
+          title: Text("Editando:${widget.fornecedor.nome}"),
         ),
         body: Center(
           child: SingleChildScrollView(
@@ -59,7 +59,7 @@ class _EdicaoFornecedoresState extends State<EdicaoFornecedores> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-          //! ============== TEXT FORMS ===========
+                      //! ============== TEXT FORMS ===========
                       TextFormFornecedores(
                         teclado: TextInputType.name,
                         funcao: (String? value) {
@@ -93,11 +93,27 @@ class _EdicaoFornecedoresState extends State<EdicaoFornecedores> {
                         controller: enderecoController,
                         hintText: "Endereço",
                       ),
-                     
+                      TextFormFornecedores(
+                        teclado: TextInputType.name,
+                        funcao: (value) {
+                          if (nomeValidator(value)) {
+                            return 'Insira o CNPJ';
+                          }
+                          return null;
+                        },
+                        controller: cnpjController,
+                        hintText: "CNPJ",
+                      ),
+
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            _UseCasesFornecedor.editarFornecedor(nome:nameController.text, telefone:telefoneController.text, endereco:enderecoController.text,id: widget.fornecedor.id);
+                            _UseCasesFornecedor.editarFornecedor(
+                                nome: nameController.text,
+                                telefone: telefoneController.text,
+                                endereco: enderecoController.text,
+                                cnpj: cnpjController.text,
+                                id: widget.fornecedor.id);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Editando Fornecedor...'),

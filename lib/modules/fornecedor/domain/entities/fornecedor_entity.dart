@@ -4,13 +4,14 @@ import 'package:equatable/equatable.dart';
 
 class Fornecedor extends Equatable {
   int id;
+  String cnpj;
   String nome;
   String telefone;
   String endereco;
 
   Fornecedor(
-      {this.id = 1, this.nome = "", this.telefone = "", this.endereco = ""});
+      {this.id = 0, this.nome = "", this.telefone = "", this.endereco = "",this.cnpj = ""});
 
   @override
-  List<Object?> get props => [id, nome, telefone, endereco];
+  List<Object?> get props => [id, nome, telefone, endereco,cnpj];
 }

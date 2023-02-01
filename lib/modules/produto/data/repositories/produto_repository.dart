@@ -11,8 +11,8 @@ class ProdutoRepository implements IProdutoRepository {
       this.dataSource); //this.datasourceLocal, //this.datasourceRemoto,
 
   @override
-  Future<List<ProdutoModel>> obterTodosProdutos() async {
-    return await dataSource.obterTodosProdutos();
+  Future<List<ProdutoModel>> obterTodosProdutos(String? nome) async {
+    return await dataSource.obterTodosProdutos(nome);
   }
 
     @override

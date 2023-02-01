@@ -18,17 +18,24 @@ class Endpoints {
   static const String BUSCAR_PRODUTOS = 'controller/ExibeProdutos';
   static const String BUSCAR_FUNCIONARIOS = 'controller/ExibeFuncionarios';
   static const String BUSCAR_VENDAS = 'Venda/ExibeVendas';
+  static const String BUSCAR_VENDAS_POR_DIA = 'Venda/ObterPorPeriodo';
+  static const String BUSCAR_CARGOS = 'controller/ObterCargos';
+   static const String BUSCAR_PEDIDOS = '/controller/ExibePedidos';
 
   //POST
 
   static const String SALVAR_CLIENTE = 'controller/SaveClient';
   static const String SALVAR_FORNECEDOR = 'controller/SaveFornecedor';
   static const String SALVAR_FUNCIONARIO = 'controller/SaveFuncionario';
-  static const String SALVAR_PRODUTO = '/controller/SaveProduto';
+  static const String SALVAR_PRODUTO = 'controller/SaveProduto';
+  static const String SALVAR_VENDAS = 'Venda/SaveVenda';
+  static const String SALVAR_PEDIDOS = 'controller/SavePedido';
 
   //DELETE
   static const String DELETAR_CLIENTE = 'controller/DeletaCliente';
   static const String DELETAR_FORNECEDOR = 'controller/DeletaFornecedor';
   static const String DELETAR_FUNCIONARIO = 'controller​/DeletaFuncionario';
-  static const String DELETAR_PRODUTO = '/controller/DeletaProduto';
+  static const String DELETAR_PRODUTO = 'controller/DeletaProduto';
+  static const String DELETAR_VENDAS = 'Venda/DeletaVenda';
+  static const String DELETAR_PEDIDOS = 'controller/DeletaPedido';
 }
