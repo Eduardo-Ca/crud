@@ -1,11 +1,10 @@
-
 import 'package:teste/modules/funcionario/data/datasource/funcionario_datasource_abst.dart';
 import 'package:teste/modules/produto/data/datasource/produto_datasource_abst.dart';
+import 'package:teste/modules/produto/data/models/estoque_model.dart';
 import 'package:teste/modules/produto/data/models/produto_model.dart';
 
 import 'package:teste/utils/configuracao_api/request_util.dart';
 import 'package:teste/utils/constants/request_constante.dart';
-
 
 RequestUtil _request = RequestUtil();
 
@@ -13,14 +12,15 @@ class ProdutoDatasource implements IProdutoDatasource {
   @override
   Future<List<ProdutoModel>> obterTodosProdutos(String? nome) async {
     dynamic retorno = await _request.fazRequestNovo(
-        method: Request.GET, endpoint: Endpoints.BUSCAR_PRODUTOS,   data: {
-          "nome": nome,
-     
-        },
-        dataParameters: {
-          "nome": nome,
-        
-        },);
+      method: Request.GET,
+      endpoint: Endpoints.BUSCAR_PRODUTOS,
+      data: {
+        "nome": nome,
+      },
+      dataParameters: {
+        "nome": nome,
+      },
+    );
 
     List<ProdutoModel> lista = [];
 
@@ -29,9 +29,12 @@ class ProdutoDatasource implements IProdutoDatasource {
     return lista;
   }
 
-   @override
+  @override
   Future<dynamic> criarProduto(
-      {String? nome, String? descricao, double? precoUnitario, int? quantidadeEstoque}) async {
+      {String? nome,
+      String? descricao,
+      double? precoUnitario,
+      int? quantidadeEstoque}) async {
     dynamic retorno = await _request.fazRequestNovo(
         method: Request.POST,
         endpoint: Endpoints.SALVAR_PRODUTO,
@@ -55,7 +58,10 @@ class ProdutoDatasource implements IProdutoDatasource {
 
   @override
   Future<dynamic> editarProduto(
-      {String? nome, String? descricao, double? precoUnitario, int? quantidadeEstoque,
+      {String? nome,
+      String? descricao,
+      double? precoUnitario,
+      int? quantidadeEstoque,
       int? id}) async {
     dynamic retorno = await _request.fazRequestNovo(
         method: Request.POST,
@@ -96,5 +102,45 @@ class ProdutoDatasource implements IProdutoDatasource {
 
     return retorno;
   }
-  
+
+  Future<List<EstoqueModel>> obterEstoque(int? dias) async {
+    dynamic retorno = await _request.fazRequestNovo(
+      method: Request.GET,
+      endpoint: Endpoints.BUSCAR_ESTOQUE,
+      data: {
+        "dias": dias,
+      },
+      dataParameters: {
+        "dias": dias,
+      },
+    );
+
+    List<EstoqueModel> lista = [];
+
+    retorno.data.forEach((i) => lista.add(EstoqueModel.fromJson(i)));
+    print(lista);
+    return lista;
+  }
+
+  @override
+  Future<dynamic> criarEstoque(
+      {int? produtoId, int? fornecedorId, int? quantidadeItens}) async {
+    dynamic retorno = await _request.fazRequestNovo(
+        method: Request.POST,
+        endpoint: Endpoints.SALVAR_ESTOQUE,
+        data: {
+          "produtoId": produtoId,
+          "fornecedorId": fornecedorId,
+          "quantidadeItens": quantidadeItens,
+        },
+        dataParameters: {
+          "produtoId": produtoId,
+          "fornecedorId": fornecedorId,
+          "quantidadeItens": quantidadeItens,
+        },
+        sincronizando: true);
+    print(retorno);
+
+    return retorno;
+  }
 }

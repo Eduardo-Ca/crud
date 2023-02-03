@@ -20,7 +20,8 @@ class Endpoints {
   static const String BUSCAR_VENDAS = 'Venda/ExibeVendas';
   static const String BUSCAR_VENDAS_POR_DIA = 'Venda/ObterPorPeriodo';
   static const String BUSCAR_CARGOS = 'controller/ObterCargos';
-   static const String BUSCAR_PEDIDOS = 'Venda/ExibePedidosVenda';
+  static const String BUSCAR_PEDIDOS = 'Venda/ExibePedidosVenda';
+  static const String BUSCAR_ESTOQUE = 'controller/ExibeEstoque';
 
   //POST
 
@@ -30,6 +31,7 @@ class Endpoints {
   static const String SALVAR_PRODUTO = 'controller/SaveProduto';
   static const String SALVAR_VENDAS = 'Venda/SaveVenda';
   static const String SALVAR_PEDIDOS = 'controller/SavePedido';
+  static const String SALVAR_ESTOQUE = 'controller/AtualizaEstoque';
 
   //DELETE
   static const String DELETAR_CLIENTE = 'controller/DeletaCliente';

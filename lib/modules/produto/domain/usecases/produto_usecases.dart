@@ -1,3 +1,4 @@
+import 'package:teste/modules/produto/data/models/estoque_model.dart';
 import 'package:teste/modules/produto/data/models/produto_model.dart';
 import 'package:teste/modules/produto/domain/repositories/produto_repository.dart';
 import 'package:teste/modules/produto/domain/usecases/interfaces/interface_produto_usecase.dart';
@@ -33,4 +34,19 @@ class UseCasesProduto extends IUsecasesProduto {
    final resultado = await repositoryRemoto.deletarProduto(id: id);
     return resultado;
   }
+
+    @override
+  Future<List<EstoqueModel>> obterEstoque(dias) async {
+    final result = await repositoryRemoto.obterEstoque(dias);
+
+    return result;
+  }
+
+   @override
+  Future<dynamic> criarEstoque({ produtoId,  fornecedorId,quantidadeItens}) async{
+   
+    final resultado = await repositoryRemoto.criarEstoque(produtoId:produtoId, fornecedorId:fornecedorId,quantidadeItens:quantidadeItens);
+    return resultado;
+  }
+
 }

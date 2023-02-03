@@ -6,6 +6,7 @@ import 'package:teste/modules/cliente/presenter/lista_clientes_tela.dart';
 import 'package:teste/modules/fornecedor/presenter/lista_fornecedor_tela.dart';
 
 import 'package:teste/modules/produto/presenter/lista_de_produtos.dart';
+import 'package:teste/modules/produto/presenter/lista_estoque.dart';
 import 'package:teste/modules/vendas/presenter/vendas_tela.dart';
 
 class BotoesDrawer extends StatefulWidget {
@@ -68,6 +69,15 @@ class _BotoesDrawerState extends State<BotoesDrawer> {
           onTap: () => Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                   builder: (context) => const ListaProdutosTela()),
+              (Route<dynamic> route) => false),
+        ),
+        ListTile(
+          leading: const Icon(MdiIcons.book, color: Colors.red, size: 28),
+          title: const Text("Estoque",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          onTap: () => Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => const ListaEstoque()),
               (Route<dynamic> route) => false),
         ),
         ListTile(
