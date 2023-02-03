@@ -11,6 +11,7 @@ import 'package:teste/modules/vendas/data/models/vendas_model.dart';
 import 'package:teste/modules/vendas/domain/entities/vendas_entity.dart';
 import 'package:teste/modules/vendas/domain/usecases/vendas_usecases.dart';
 import 'package:teste/modules/vendas/presenter/components/lista_vendas_card.dart';
+import 'package:teste/modules/vendas/presenter/form_pedidos.dart';
 import 'package:teste/modules/vendas/presenter/form_vendas.dart';
 import 'package:teste/utils/compartilhados/botoes_drawer.dart';
 
@@ -22,6 +23,7 @@ class VendasTela extends StatefulWidget {
 }
 
 class _VendasTelaState extends State<VendasTela> {
+  
   String valorPesquisa = "";
   List<ClienteModel> dropClientes = [];
   List<FuncionarioModel> dropFuncionarios = [];
@@ -71,14 +73,17 @@ class _VendasTelaState extends State<VendasTela> {
         title: const Text("Vendas"),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async{
+         final novaVenda = await Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (contextNew) => FormVendas(
                         dropClientes: dropClientes,
                         dropFuncionarios: dropFuncionarios,
                       )));
+                setState(() {
+                  
+                });
         },
         child: const Icon(
           MdiIcons.cashPlus,
@@ -247,8 +252,8 @@ class _VendasTelaState extends State<VendasTela> {
                         key: ValueKey<Vendas>(vendas[index]),
                         onDismissed: (DismissDirection direction) async {
                           setState(() {
-                            // _UseCasesVenda.deletarVenda(
-                            //     id: vendas[index].id);
+                             _UseCasesVendas.deletarVendas(
+                                 id: vendas[index].id);
                           });
                         },
                         child: ListTile(
@@ -259,13 +264,13 @@ class _VendasTelaState extends State<VendasTela> {
                           ),
 
                           onTap: (() async {
-                            // final editarProduto = await Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (contextNew) => EdicaoVenda(
-                            //               venda: vendas[index],
-                            //             )));
-                            // setState(() {});
+                            final editarProduto = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (contextNew) => FormPedidos(
+                                          venda: vendas[index],
+                                        )));
+                            setState(() {});
                           }),
                         ));
                   },

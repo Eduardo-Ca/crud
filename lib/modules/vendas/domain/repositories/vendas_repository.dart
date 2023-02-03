@@ -1,4 +1,4 @@
-import 'package:teste/modules/vendas/data/models/vendas_model%20copy.dart';
+import 'package:teste/modules/vendas/data/models/pedidos_model.dart';
 import 'package:teste/modules/vendas/data/models/vendas_model.dart';
 
 abstract class IVendasRepository {
@@ -13,7 +13,7 @@ abstract class IVendasRepository {
 
   Future<dynamic> deletarVendas({required int id});
 
-   Future<List<PedidosModel>> obterTodosPedidos();
+   Future<List<PedidosModel>> obterTodosPedidos({required int vendaId});
 
    Future<dynamic> criarPedidos(
       { int? vendaId, int? produtoId,int?quantidadeItens});

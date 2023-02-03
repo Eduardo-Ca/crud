@@ -8,12 +8,14 @@ class ProdutoModel extends Produto {
       String? nome,
       String? descricao,
       int? quantidadeEstoque,
+      int? quantidade,
       double? precoUnitario})
       : super(
             id: id ?? 0,
             nome: nome ?? "",
             descricao: descricao ?? "",
             quantidadeEstoque: quantidadeEstoque ?? 0,
+            quantidade: quantidade ?? 0,
             precoUnitario: precoUnitario ?? 0);
 
   Map<String, dynamic> toJson() {
@@ -35,6 +37,4 @@ class ProdutoModel extends Produto {
       precoUnitario: map['precoUnitario'] as double,
     );
   }
-
-  
 }

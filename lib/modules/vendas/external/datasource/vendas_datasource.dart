@@ -1,12 +1,14 @@
 import 'package:teste/modules/vendas/data/datasource/vendas_datasource_abst.dart';
-import 'package:teste/modules/vendas/data/models/vendas_model%20copy.dart';
+import 'package:teste/modules/vendas/data/models/pedidos_model.dart';
 import 'package:teste/modules/vendas/data/models/vendas_model.dart';
+import 'package:teste/store/vendas_store.dart';
 import 'package:teste/utils/configuracao_api/request_util.dart';
 import 'package:teste/utils/constants/request_constante.dart';
 
 RequestUtil _request = RequestUtil();
 
 class VendasDatasource implements IVendasDatasource {
+ 
   @override
   Future<List<VendasModel>> obterTodasVendas() async {
     dynamic retorno = await _request.fazRequestNovo(
@@ -101,14 +103,19 @@ class VendasDatasource implements IVendasDatasource {
   }
 
   @override
-  Future<List<PedidosModel>> obterTodosPedidos() async {
+  Future<List<PedidosModel>> obterTodosPedidos({required int vendaId}) async {
     dynamic retorno = await _request.fazRequestNovo(
-        method: Request.GET, endpoint: Endpoints.BUSCAR_PEDIDOS, data: null);
+        method: Request.GET, endpoint: Endpoints.BUSCAR_PEDIDOS,  data: {
+          "idVenda": vendaId,
+        },
+        dataParameters: {
+          "idVenda": vendaId,
+        },);
 
     List<PedidosModel> lista = [];
 
     retorno.data.forEach((i) => lista.add(PedidosModel.fromJson(i)));
-
+ 
     return lista;
   }
 

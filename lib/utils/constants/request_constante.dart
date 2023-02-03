@@ -20,7 +20,7 @@ class Endpoints {
   static const String BUSCAR_VENDAS = 'Venda/ExibeVendas';
   static const String BUSCAR_VENDAS_POR_DIA = 'Venda/ObterPorPeriodo';
   static const String BUSCAR_CARGOS = 'controller/ObterCargos';
-   static const String BUSCAR_PEDIDOS = '/controller/ExibePedidos';
+   static const String BUSCAR_PEDIDOS = 'Venda/ExibePedidosVenda';
 
   //POST
 

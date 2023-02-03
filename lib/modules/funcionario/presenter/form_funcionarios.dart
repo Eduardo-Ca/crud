@@ -120,7 +120,7 @@ class _FormFuncionariosState extends State<FormFuncionarios> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
-                                hintText: "Escolha o funcionário",
+                                hintText: "Escolha o Cargo",
                                 fillColor: Colors.grey.withOpacity(0.2),
                                 filled: true,
                               ),

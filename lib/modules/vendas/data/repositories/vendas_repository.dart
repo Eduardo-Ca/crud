@@ -3,7 +3,7 @@ import 'package:teste/modules/funcionario/data/datasource/funcionario_datasource
 import 'package:teste/modules/produto/data/models/produto_model.dart';
 import 'package:teste/modules/produto/domain/repositories/produto_repository.dart';
 import 'package:teste/modules/vendas/data/datasource/vendas_datasource_abst.dart';
-import 'package:teste/modules/vendas/data/models/vendas_model%20copy.dart';
+import 'package:teste/modules/vendas/data/models/pedidos_model.dart';
 import 'package:teste/modules/vendas/data/models/vendas_model.dart';
 import 'package:teste/modules/vendas/domain/repositories/vendas_repository.dart';
 
@@ -43,8 +43,8 @@ class VendasRepository implements IVendasRepository {
   }
 
   @override
-  Future<dynamic> deletarVPedidos({required int id}) async {
-    return await dataSource.deletarPedidos(id: id);
+  Future<dynamic> deletarVendas({required int id}) async {
+    return await dataSource.deletarVendas(id: id);
   }
 
   @override
@@ -57,8 +57,8 @@ class VendasRepository implements IVendasRepository {
   }
 
   @override
-  Future<List<PedidosModel>> obterTodosPedidos() async {
-    return await dataSource.obterTodosPedidos();
+  Future<List<PedidosModel>> obterTodosPedidos({required int vendaId}) async {
+    return await dataSource.obterTodosPedidos(vendaId: vendaId);
   }
 
   @override
@@ -66,8 +66,5 @@ class VendasRepository implements IVendasRepository {
     return await dataSource.deletarPedidos(id: id);
   }
 
-  @override
-  Future deletarVendas({required int id}) async {
-    return await dataSource.deletarPedidos(id: id);
-  }
+
 }

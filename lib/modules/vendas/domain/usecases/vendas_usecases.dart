@@ -1,4 +1,4 @@
-import 'package:teste/modules/vendas/data/models/vendas_model%20copy.dart';
+import 'package:teste/modules/vendas/data/models/pedidos_model.dart';
 import 'package:teste/modules/vendas/data/models/vendas_model.dart';
 import 'package:teste/modules/vendas/domain/repositories/vendas_repository.dart';
 import 'package:teste/modules/vendas/domain/usecases/interfaces/interface_vendas_usecase.dart';
@@ -57,8 +57,8 @@ class UseCasesVendas extends IUsecasesVendas {
   }
 
    @override
-  Future<List<PedidosModel>> obterTodosPedidos() async {
-    final result = await repositoryRemoto.obterTodosPedidos();
+  Future<List<PedidosModel>> obterTodosPedidos({required int vendaId}) async {
+    final result = await repositoryRemoto.obterTodosPedidos(vendaId: vendaId);
 
     return result;
   }
