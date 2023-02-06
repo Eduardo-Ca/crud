@@ -113,100 +113,99 @@ class _ListaEstoqueState extends State<ListaEstoque> {
   }
 
   _listaEstoque() {
-    return SingleChildScrollView(
-      child: FutureBuilder<List<EstoqueModel>>(
-        future: Future.delayed(const Duration(milliseconds: 400))
-            .then((value) => chip1Selecionado
-                ? _UseCasesProduto.obterEstoque(0)
-                : chip2Selecionado
-                    ? _UseCasesProduto.obterEstoque(1)
-                    : chip3Selecionado
-                        ? _UseCasesProduto.obterEstoque(5)
-                        : _UseCasesProduto.obterEstoque(10)),
-        initialData: const [],
-        builder: ((context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return const Center(child: Text("Erro"));
+    return FutureBuilder<List<EstoqueModel>>(
+      future: Future.delayed(const Duration(milliseconds: 400))
+          .then((value) => chip1Selecionado
+              ? _UseCasesProduto.obterEstoque(0)
+              : chip2Selecionado
+                  ? _UseCasesProduto.obterEstoque(1)
+                  : chip3Selecionado
+                      ? _UseCasesProduto.obterEstoque(5)
+                      : _UseCasesProduto.obterEstoque(10)),
+      initialData: const [],
+      builder: ((context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return const Center(child: Text("Erro"));
 
-            case ConnectionState.waiting:
-              return const Center(
-                child: SpinKitCircle(
-                  color: Colors.red,
-                  size: 50.0,
-                ),
+          case ConnectionState.waiting:
+            return const Center(
+              child: SpinKitCircle(
+                color: Colors.red,
+                size: 50.0,
+              ),
+            );
+
+          case ConnectionState.active:
+            break;
+          case ConnectionState.done:
+            final List<EstoqueModel>? estoque = snapshot.data;
+            if (estoque == null || estoque.isEmpty) {
+              return Center(
+                  child: Column(
+                children: [
+                  SizedBox(
+                    width: 340,
+                    height: 320,
+                    child: Lottie.network(
+                        "https://assets7.lottiefiles.com/packages/lf20_rIg0v53Pan.json"),
+                  ),
+                  const Text(
+                    "Sem informação",
+                    style: TextStyle(fontSize: 26, color: Colors.grey),
+                  ),
+                ],
+              ));
+            } else {
+              return ListView.builder(
+                shrinkWrap: true,
+                controller: ScrollController(),
+                itemCount: estoque.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    //tileColor: const Color.fromARGB(255, 110, 150, 209),
+                    //!=== Card ===
+                    title: Container(
+                      child: Card(
+                          child: Padding(
+                        padding: const EdgeInsets.all(11.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              estoque[index].produto,
+                              style: const TextStyle(fontSize: 19),
+                            ),
+                            Text(
+                              "Fornecedor: ${estoque[index].fornecedorProduto}",
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.grey),
+                            ),
+                            Text(
+                              "Quantidade: ${estoque[index].quantidadeItens}",
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.grey),
+                            ),
+                            Text(
+                              "Data de entrada: ${estoque[index].dataEntradaEstoque.replaceRange(10, 19, "")}",
+                              style: const TextStyle(
+                                  fontSize: 15, color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      )),
+                    ),
+                  );
+                },
               );
-
-            case ConnectionState.active:
-              break;
-            case ConnectionState.done:
-              final List<EstoqueModel>? estoque = snapshot.data;
-              if (estoque == null || estoque.isEmpty) {
-                return Center(
-                    child: Column(
-                  children: [
-                    SizedBox(
-                      width: 340,
-                      height: 320,
-                      child: Lottie.network(
-                          "https://assets7.lottiefiles.com/packages/lf20_rIg0v53Pan.json"),
-                    ),
-                    const Text(
-                      "Sem informação",
-                      style: TextStyle(fontSize: 26, color: Colors.grey),
-                    ),
-                  ],
-                ));
-              } else {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: estoque.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      //tileColor: const Color.fromARGB(255, 110, 150, 209),
-                      //!=== Card ===
-                      title: Container(
-                        child: Card(
-                            child: Padding(
-                          padding: const EdgeInsets.all(11.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                estoque[index].produto,
-                                style: const TextStyle(fontSize: 19),
-                              ),
-                              Text(
-                                "Fornecedor: ${estoque[index].fornecedorProduto}",
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.grey),
-                              ),
-                              Text(
-                                "Quantidade: ${estoque[index].quantidadeItens}",
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.grey),
-                              ),
-                              Text(
-                                "Data de entrada: ${estoque[index].dataEntradaEstoque.replaceRange(10, 19, "")}",
-                                style: const TextStyle(
-                                    fontSize: 15, color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        )),
-                      ),
-                    );
-                  },
-                );
-              }
-          }
-          return const Center(
-              child: Text(
-            "Sem informação",
-            style: TextStyle(fontSize: 33, color: Colors.black),
-          ));
-        }),
-      ),
+            }
+        }
+        return const Center(
+            child: Text(
+          "Sem informação",
+          style: TextStyle(fontSize: 33, color: Colors.black),
+        ));
+      }),
     );
   }
 

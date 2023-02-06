@@ -28,8 +28,20 @@ class _FormVendasState extends State<FormVendas> {
   @override
   void initState() {
     super.initState();
-
+    widget.dropClientes = ordernarListaCliente( widget.dropClientes);
+    widget.dropFuncionarios = ordernarListaFuncionario(widget.dropFuncionarios);
     _UseCasesVenda = GetIt.I.get<UseCasesVendas>();
+  }
+
+   List<ClienteModel> ordernarListaCliente(List<ClienteModel> lista) {
+    List<ClienteModel> clienteOdernado = lista.toList();
+    clienteOdernado.sort((a, b) => a.nome.compareTo(b.nome));
+    return clienteOdernado;
+  }
+   List<FuncionarioModel> ordernarListaFuncionario(List<FuncionarioModel> lista) {
+    List<FuncionarioModel> funcionariodernado = lista.toList();
+    funcionariodernado.sort((a, b) => a.nome.compareTo(b.nome));
+    return funcionariodernado;
   }
 
   @override

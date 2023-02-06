@@ -17,7 +17,7 @@ class _ProdutoCardState extends State<ProdutoCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(0.0),
     child: Card(
       margin: EdgeInsets.zero,
       elevation: 7,
@@ -28,7 +28,7 @@ class _ProdutoCardState extends State<ProdutoCard> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(0.0),
             child: Card(
               elevation: 0,
               shape: RoundedRectangleBorder(

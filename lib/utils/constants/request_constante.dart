@@ -36,7 +36,7 @@ class Endpoints {
   //DELETE
   static const String DELETAR_CLIENTE = 'controller/DeletaCliente';
   static const String DELETAR_FORNECEDOR = 'controller/DeletaFornecedor';
-  static const String DELETAR_FUNCIONARIO = 'controller​/DeletaFuncionario';
+  static const String DELETAR_FUNCIONARIO = 'controller/DeletaFuncionario';
   static const String DELETAR_PRODUTO = 'controller/DeletaProduto';
   static const String DELETAR_VENDAS = 'Venda/DeletaVenda';
   static const String DELETAR_PEDIDOS = 'controller/DeletaPedido';

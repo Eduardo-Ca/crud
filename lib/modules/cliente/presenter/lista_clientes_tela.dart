@@ -151,6 +151,7 @@ class _ListaCleintesTelaState extends State<ListaCleintesTela> {
               ));
             } else {
               return ListView.builder(
+                controller: ScrollController(),
                 shrinkWrap: true,
                 itemCount: clientes.length,
                 itemBuilder: (BuildContext context, int index) {

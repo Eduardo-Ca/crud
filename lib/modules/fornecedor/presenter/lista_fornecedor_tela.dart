@@ -154,6 +154,7 @@ class _ListaFornecedoresTelaState extends State<ListaFornecedoresTela> {
               ));
             } else {
               return ListView.builder(
+                controller: ScrollController(),
                 shrinkWrap: true,
                 itemCount: fornecedores.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -171,8 +172,10 @@ class _ListaFornecedoresTelaState extends State<ListaFornecedoresTela> {
                       child: ListTile(
                         //tileColor: const Color.fromARGB(255, 110, 150, 209),
                         //!=== Card ===
-                        title: FornecedoresCard(
-                          fornecedor: fornecedores[index],
+                        title: ListTile(
+                          title: FornecedoresCard(
+                            fornecedor: fornecedores[index],
+                          ),
                         ),
 
                         onTap: (() async {

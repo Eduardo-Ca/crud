@@ -39,7 +39,6 @@ class _FornecedoresCardState extends State<FornecedoresCard> {
                     Icon(
                       MdiIcons.humanDolly,
                       size: 28,
-                    
                     ),
                   ],
                 ),
@@ -58,20 +57,16 @@ class _FornecedoresCardState extends State<FornecedoresCard> {
                   ),
                 ),
               ),
-               Center(
-                  child: Text(
-                    "Telefone: ${widget.fornecedor.telefone}",
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey
-                      
-                    ),
-                  ),
+              Center(
+                child: Text(
+                  "Telefone: ${widget.fornecedor.telefone}",
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
+              ),
             ],
           ),
           const Padding(
-            padding: EdgeInsets.only(right:15.0),
+            padding: EdgeInsets.only(right: 15.0),
             child: Icon(
               Icons.chevron_right,
               size: 34,

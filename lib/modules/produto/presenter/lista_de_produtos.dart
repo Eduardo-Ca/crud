@@ -154,6 +154,7 @@ class _ListaProdutosTelaState extends State<ListaProdutosTela> {
                 ));
               } else {
                 return ListView.builder(
+                  controller: ScrollController(),
                   shrinkWrap: true,
                   itemCount: produtos.length,
                   itemBuilder: (BuildContext context, int index) {

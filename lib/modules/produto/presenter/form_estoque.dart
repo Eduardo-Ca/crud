@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:teste/modules/fornecedor/data/models/fornecedor_model.dart';
+import 'package:teste/modules/fornecedor/domain/entities/fornecedor_entity.dart';
 import 'package:teste/modules/produto/data/models/produto_model.dart';
 import 'package:teste/modules/produto/domain/usecases/produto_usecases.dart';
 import 'package:teste/modules/produto/presenter/components/text_form_produtos.dart';
 
 class FormEstoque extends StatefulWidget {
   List<ProdutoModel> dropProdutos;
-   List<FornecedorModel> dropFornecedor;
-   FormEstoque({super.key,required this.dropProdutos,required this.dropFornecedor});
+  List<FornecedorModel> dropFornecedor;
+  FormEstoque(
+      {super.key, required this.dropProdutos, required this.dropFornecedor});
 
   @override
   State<FormEstoque> createState() => _FormEstoqueState();
 }
 
 class _FormEstoqueState extends State<FormEstoque> {
-
   TextEditingController quantidadeController = TextEditingController();
-    String? dropValueProdutos;
-    String? dropValueFornecedor;
+  String? dropValueProdutos;
+  String? dropValueFornecedor;
 
   final _formkey = GlobalKey<FormState>();
 
@@ -29,7 +30,22 @@ class _FormEstoqueState extends State<FormEstoque> {
   void initState() {
     super.initState();
 
+   widget.dropProdutos = ordernarListaProdutos(widget.dropProdutos);
+   widget.dropFornecedor = ordernarListaFornecedores(widget.dropFornecedor);
+   
     _UseCasesProduto = GetIt.I.get<UseCasesProduto>();
+  }
+
+   List<ProdutoModel> ordernarListaProdutos(List<ProdutoModel> lista) {
+    List<ProdutoModel> produtosOrdernado = lista.toList();
+    produtosOrdernado.sort((a, b) => a.nome.compareTo(b.nome));
+    return produtosOrdernado;
+  }
+
+   List<FornecedorModel> ordernarListaFornecedores(List<FornecedorModel> lista) {
+    List<FornecedorModel> fornecedorOdernado = lista.toList();
+    fornecedorOdernado.sort((a, b) => a.nome.compareTo(b.nome));
+    return fornecedorOdernado;
   }
 
   bool nomeValidator(String? value) {
@@ -62,8 +78,7 @@ class _FormEstoqueState extends State<FormEstoque> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
-                        Padding(
+                      Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: ButtonTheme(
                           alignedDropdown: true,
@@ -87,8 +102,7 @@ class _FormEstoqueState extends State<FormEstoque> {
                                   dropValueProdutos = escolha.toString()),
                         ),
                       ),
-
-                       Padding(
+                      Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: ButtonTheme(
                           alignedDropdown: true,
@@ -109,12 +123,9 @@ class _FormEstoqueState extends State<FormEstoque> {
                                       value: opcao.id, child: Text(opcao.nome)))
                                   .toList(),
                               onChanged: (escolha) =>
-                                  dropValueFornecedor= escolha.toString()),
+                                  dropValueFornecedor = escolha.toString()),
                         ),
                       ),
-
-
-                     
                       TextFormProdutos(
                         funcao: (String? value) {
                           if (nomeValidator(value)) {
@@ -129,13 +140,19 @@ class _FormEstoqueState extends State<FormEstoque> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            _UseCasesProduto.criarEstoque(fornecedorId: int.parse(dropValueFornecedor.toString()),produtoId: int.parse(dropValueProdutos.toString()),quantidadeItens:int.parse(quantidadeController.text) );
+                            _UseCasesProduto.criarEstoque(
+                                fornecedorId:
+                                    int.parse(dropValueFornecedor.toString()),
+                                produtoId:
+                                    int.parse(dropValueProdutos.toString()),
+                                quantidadeItens:
+                                    int.parse(quantidadeController.text));
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Criando novo Estoque'),
                               ),
                             );
-                           
+
                             Navigator.pop(context);
                           }
                         },

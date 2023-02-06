@@ -242,6 +242,7 @@ class _VendasTelaState extends State<VendasTela> {
                 ));
               } else {
                 return ListView.builder(
+                  controller: ScrollController(),
                   shrinkWrap: true,
                   itemCount: vendas.length,
                   itemBuilder: (BuildContext context, int index) {

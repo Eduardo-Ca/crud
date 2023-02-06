@@ -173,6 +173,7 @@ class _ListaFuncionariosTelaState extends State<ListaFuncionariosTela> {
                 return ListView.builder(
                   shrinkWrap: true,
                   itemCount: funcionarios.length,
+                  controller: ScrollController(),
                   itemBuilder: (BuildContext context, int index) {
                     return Dismissible(
                         background: Container(

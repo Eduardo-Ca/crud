@@ -16,7 +16,7 @@ class _FuncionarioCardState extends State<FuncionarioCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(0.0),
     child: Card(
       margin: EdgeInsets.zero,
       elevation: 7,
